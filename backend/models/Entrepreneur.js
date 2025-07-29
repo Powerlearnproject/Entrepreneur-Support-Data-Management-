@@ -1,0 +1,26 @@
+const mongoose = require('mongoose');
+
+const fundSchema = new mongoose.Schema({
+  amount: Number,
+  date: Date,
+  usage: String,
+  receipts: [String],
+}, { _id: false });
+
+const supportActivitySchema = new mongoose.Schema({
+  type: String,
+  date: Date,
+  notes: String,
+}, { _id: false });
+
+const entrepreneurSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  contactInfo: String,
+  businessName: String,
+  documents: [String],
+  image: String,
+  funds: [fundSchema],
+  supportActivities: [supportActivitySchema],
+}, { timestamps: true });
+
+module.exports = mongoose.model('Entrepreneur', entrepreneurSchema); 

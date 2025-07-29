@@ -4,6 +4,7 @@ const multer = require('multer');
 const path = require('path');
 const applicationController = require('../controllers/applicationController');
 const auth = require('../middleware/auth');
+const { isAdmin } = require('../middleware/auth');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -22,9 +23,9 @@ router.post('/', upload.single('image'), applicationController.submitApplication
 router.get('/', auth, applicationController.listApplications);
 
 // Admin: approve application
-router.patch('/:id/approve', auth, applicationController.approveApplication);
+router.patch('/:id/approve', auth, isAdmin, applicationController.approveApplication);
 
 // Admin: reject application
-router.patch('/:id/reject', auth, applicationController.rejectApplication);
+router.patch('/:id/reject', auth, isAdmin, applicationController.rejectApplication);
 
 module.exports = router; 

@@ -9,6 +9,8 @@
 
 HEVA Tracker is a comprehensive web-based platform designed to support creative entrepreneurs across East Africa through funding, capacity building, and research. The application serves as a centralized hub for tracking startup progress, managing fund disbursements, collecting data, and generating strategic insights for program administrators and stakeholders.
 
+Deployment Link: https://hevatracker.netlify.app
+
 ### 🎯 Mission
 To create a unified, user-friendly platform that empowers HEVA Fund administrators to efficiently track, analyze, and support creative businesses across East Africa while providing entrepreneurs with tools to manage their funding journey and report progress.
 

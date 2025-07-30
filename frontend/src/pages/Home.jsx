@@ -1,35 +1,35 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
-import About from '../components/About';
 import AboutSection from '../components/AboutSection';
-
-
+import About from '../components/About';
 const Home = () => (
-  <div className="flex flex-col items-center justify-center min-h-screen bg-base-200 p-8">
-    <div className="max-w-2xl text-center">
-      <h1 className="text-5xl font-extrabold mb-6">Empowering Entrepreneurs with HEVA Management</h1>
-      <p className="mb-6 text-lg">
-        <span className="font-semibold">HEVA Management</span> is dedicated to supporting entrepreneurs at every stage of their journey. We provide access to funding, expert mentorship, and a vibrant network to help your business thrive. Our mission is to unlock your potential and accelerate your growth.
-      </p>
-      <div className="mb-6 text-lg bg-base-100 rounded-lg shadow p-4">
-        <h2 className="text-2xl font-bold mb-2">Why Join HEVA?</h2>
-        <ul className="list-disc list-inside text-left mx-auto max-w-md">
-          <li>Get access to exclusive funding opportunities for your business</li>
-          <li>Receive mentorship and guidance from industry leaders</li>
-          <li>Join a community of like-minded entrepreneurs and investors</li>
-          <li>Benefit from transparent and real-time fund management</li>
-          <li>Showcase your business to potential partners and supporters</li>
-        </ul>
+  <>
+    {/* Hero Section */}
+    <div
+      className="hero min-h-screen"
+      style={{
+        backgroundImage:
+          "url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp)",
+      }}
+    >
+      <div className="hero-overlay bg-opacity-60"></div>
+      <div className="hero-content text-neutral-content text-center">
+        <div className="max-w-md">
+          <h1 className="mb-5 text-5xl font-bold">Empowering Entrepreneurs Across Africa</h1>
+          <p className="mb-5">
+            Unlock funding, mentorship, and tailored support to grow your creative or impact-driven enterprise.
+          </p>
+          <Link to="/apply" className="btn btn-primary">
+            Apply to Join HEVA
+          </Link>
+        </div>
       </div>
-      <p className="mb-6 text-lg">
-        <span className="font-semibold">Ready to take your business to the next level?</span> Apply now to become part of the HEVA network. Once your application is approved by our admin team, your business will be featured on our platform, giving you visibility and access to support and funding.
-      </p>
-      <Link to="/apply" className="btn btn-primary btn-lg mt-4">Apply as an Entrepreneur</Link>
     </div>
 
-
-     <AboutSection />
+ 
+ <AboutSection />
+    
 
     {/* About Section */}
     <div className="bg-base-200 py-16 px-6">
@@ -54,14 +54,14 @@ const Home = () => (
               <li>Showcase your business to partners and supporters</li>
             </ul>
           </div>
-          
+         
         </div>
       </div>
     </div>
 
+  
 
-<About />
-   
+    <About />
 
     {/* Testimonials Section */}
     <div className="py-12 px-4 bg-white">
@@ -113,12 +113,11 @@ const Home = () => (
       </div>
     </div>
 
-    
+   
 
     {/* Footer */}
     <Footer />
-     </div>
-
+  </>
 );
 
 export default Home;

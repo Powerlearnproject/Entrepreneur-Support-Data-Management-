@@ -1,4 +1,3 @@
-// App.jsx
 import React from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import Home from './pages/Home';
@@ -9,16 +8,19 @@ import EntrepreneursPublic from './pages/EntrepreneursPublic';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Entrepreneurs from './pages/Entrepreneurs';
-import EntrepreneurForm from './pages/EntrepreneurForm';
 import EntrepreneurDetails from './pages/EntrepreneurDetails';
 import Applications from './pages/Applications';
 import ProtectedRoute from './components/ProtectedRoute';
 import { isLoggedIn, logout, getUser } from './utils/auth';
+import PublicOnlyRoute from './components/PublicOnlyRoute';
+import UpdatePassword from './pages/UpdatePassword';
+import UpdateApplication from './pages/UpdateApplication';
 
 const AppContent = () => {
   const navigate = useNavigate();
   const loggedIn = isLoggedIn();
   const user = getUser();
+  console.log(user.userId);
 
   const handleLogout = () => {
     logout();
@@ -29,14 +31,20 @@ const AppContent = () => {
     <div className="min-h-screen bg-base-200">
       <div className="navbar bg-base-100 shadow mb-6">
         <div className="flex-1">
-          <Link to="/" className="btn btn-ghost normal-case text-xl">HEVA Data Management</Link>
+          <Link to="/" className="btn btn-ghost normal-case text-xl">
+            HEVA Data Management
+          </Link>
         </div>
         <div className="flex-none">
           <ul className="menu menu-horizontal px-1">
-            <li><Link to="/">Home</Link></li>
-            {!loggedIn && <li><Link to="/apply">Apply</Link></li>}
-            <li><Link to="/entrepreneurs-public">Entrepreneurs</Link></li>
-            <li><Link to="/contact">Contact</Link></li>
+            {!loggedIn && (
+              <>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/apply">Apply</Link></li>
+                <li><Link to="/entrepreneurs-public">Entrepreneurs</Link></li>
+              </>
+            )}
+           
 
             {loggedIn && user?.role === 'admin' && (
               <>
@@ -50,28 +58,44 @@ const AppContent = () => {
               <li><Link to="/dashboard">Dashboard</Link></li>
             )}
 
+             {loggedIn && user?.role === 'entrepreneur' && (
+               <li><Link to="/update-password">Update Password</Link></li>
+            )}
+
+
+              {loggedIn && user?.role === 'entrepreneur' && (
+              <li>
+              <Link to={`/update-application/${user.userId}`}>Update Application</Link>
+              </li>
+              )}
+
+              <li><Link to="/contact">Contact</Link></li>
+
             {loggedIn ? (
               <li><button className="btn btn-ghost" onClick={handleLogout}>Logout</button></li>
             ) : (
               <li><Link to="/login">Login</Link></li>
             )}
+
+           
+
           </ul>
         </div>
       </div>
 
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/apply" element={<Apply />} />
+        <Route path="/" element={<PublicOnlyRoute><Home /></PublicOnlyRoute>} />
+        <Route path="/apply" element={<PublicOnlyRoute><Apply /></PublicOnlyRoute>} />
+        <Route path="/entrepreneurs-public" element={<PublicOnlyRoute><EntrepreneursPublic /></PublicOnlyRoute>} />
         <Route path="/apply/confirmation" element={<ApplyConfirmation />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/entrepreneurs-public" element={<EntrepreneursPublic />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/applications" element={<ProtectedRoute><Applications /></ProtectedRoute>} />
         <Route path="/entrepreneurs" element={<ProtectedRoute><Entrepreneurs /></ProtectedRoute>} />
-        <Route path="/entrepreneurs/new" element={<ProtectedRoute><EntrepreneurForm /></ProtectedRoute>} />
         <Route path="/entrepreneurs/:id" element={<ProtectedRoute><EntrepreneurDetails /></ProtectedRoute>} />
-        <Route path="/entrepreneurs/:id/edit" element={<ProtectedRoute><EntrepreneurForm /></ProtectedRoute>} />
+        <Route path="/update-password" element={<ProtectedRoute><UpdatePassword /></ProtectedRoute>} />
+        <Route path="/update-application/:id" element={<ProtectedRoute><UpdateApplication /></ProtectedRoute>} />
+         <Route path="/contact" element={<Contact />} />
       </Routes>
     </div>
   );

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getToken } from '../utils/auth';
+import API from '../utils/Api';
 
 const Applications = () => {
   const [applications, setApplications] = useState([]);
@@ -14,7 +15,7 @@ const Applications = () => {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('http://localhost:5000/api/applications', {
+      const res = await fetch(`${API}/applications`, {
         headers: {
           Authorization: `Bearer ${getToken()}`,
         },
@@ -37,7 +38,7 @@ const Applications = () => {
     if (!window.confirm('Are you sure you want to approve this application?')) return;
     setProcessingId(id);
     try {
-      const res = await fetch(`http://localhost:5000/api/applications/${id}/approve`, {
+      const res = await fetch(`${API}/applications/${id}/approve`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${getToken()}`,
@@ -61,7 +62,7 @@ const Applications = () => {
     }
     setProcessingId(selectedApplication._id);
     try {
-      const res = await fetch(`http://localhost:5000/api/applications/${selectedApplication._id}/reject`, {
+      const res = await fetch(`${API}/applications/${selectedApplication._id}/reject`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -94,79 +95,60 @@ const Applications = () => {
       approved: 'badge-success',
       rejected: 'badge-error',
     };
-    return `badge ${badges[status] || 'badge-neutral'}`;
+    return badges[status] || 'badge-neutral';
   };
 
   return (
     <div className="p-8">
       <div className="text-2xl font-bold mb-6">Entrepreneur Applications</div>
-      
+
       {loading && <div className="loading loading-spinner loading-lg"></div>}
       {error && <div className="alert alert-error mb-4">{error}</div>}
-      
+
       {!loading && !error && (
-        <div className="overflow-x-auto">
-          <table className="table w-full">
-            <thead>
-              <tr>
-                <th>Image</th>
-                <th>Organization</th>
-                <th>Email</th>
-                <th>Website</th>
-                <th>Status</th>
-                <th>Applied</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {applications.map(app => (
-                <tr key={app._id}>
-                  <td>
-                    {app.image && (
-                      <img 
-                        src={`http://localhost:5000/uploads/${app.image}`} 
-                        alt="Logo" 
-                        className="w-16 h-16 object-cover rounded" 
-                      />
-                    )}
-                  </td>
-                  <td>
-                    <div className="font-bold">{app.orgName}</div>
-                    <div className="text-sm opacity-50 max-w-xs truncate">
-                      {app.reasons}
-                    </div>
-                  </td>
-                  <td>{app.email}</td>
-                  <td>
-                    {app.orgWebsite && (
-                      <a 
-                        href={app.orgWebsite} 
-                        className="link link-primary" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                      >
-                        Visit
+        applications.length === 0 ? (
+          <div className="text-center text-gray-500 mt-8 text-lg">No applications yet.</div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+            {applications.map((app) => (
+              <div className="card card-side bg-base-100 shadow-sm border" key={app._id}>
+                {app.image && (
+                  <figure className="min-w-[160px] max-w-[160px] m-2">
+                    <img
+                      src={`http://localhost:5000/uploads/${app.image}`}
+                      alt="Logo"
+                      className="w-full h-full object-cover"
+                    />
+                  </figure>
+                )}
+                <div className="card-body">
+                  <p className="text-sm">{app.name}</p>
+                  <h2 className="card-title">{app.orgName}</h2>
+                  <p className="text-sm">{app.reasons}</p>
+                  <p><strong>Email:</strong> {app.email}</p>
+                  {app.orgWebsite && (
+                    <p>
+                      <a href={app.orgWebsite} target="_blank" rel="noopener noreferrer" className="link link-primary">
+                        Visit Website
                       </a>
-                    )}
-                  </td>
-                  <td>
-                    <span className={getStatusBadge(app.status)}>
-                      {app.status}
-                    </span>
-                  </td>
-                  <td>{new Date(app.createdAt).toLocaleDateString()}</td>
-                  <td>
+                    </p>
+                  )}
+                  <p className="text-xs opacity-60">
+                    Applied on: {new Date(app.createdAt).toLocaleDateString()}
+                  </p>
+                  <div className="flex items-center justify-between mt-2">
+                    <span className={`badge ${getStatusBadge(app.status)}`}>{app.status}</span>
                     {app.status === 'pending' && (
                       <div className="flex gap-2">
-                        <button 
-                          className="btn btn-xs btn-success" 
+                        <button
+                          className="btn btn-xs btn-success"
                           onClick={() => handleApprove(app._id)}
                           disabled={processingId === app._id}
                         >
                           {processingId === app._id ? 'Processing...' : 'Approve'}
                         </button>
-                        <button 
-                          className="btn btn-xs btn-error" 
+                        <button
+                          className="btn btn-xs btn-error"
                           onClick={() => openRejectModal(app)}
                           disabled={processingId === app._id}
                         >
@@ -175,16 +157,16 @@ const Applications = () => {
                       </div>
                     )}
                     {app.status === 'rejected' && app.rejectionReason && (
-                      <div className="tooltip" data-tip={app.rejectionReason}>
+                      <div className="tooltip tooltip-left" data-tip={app.rejectionReason}>
                         <span className="text-xs text-error cursor-help">View reason</span>
                       </div>
                     )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )
       )}
 
       {/* Rejection Modal */}
@@ -203,15 +185,15 @@ const Applications = () => {
               rows={4}
             />
             <div className="modal-action">
-              <button 
-                className="btn btn-error" 
+              <button
+                className="btn btn-error"
                 onClick={handleReject}
                 disabled={processingId === selectedApplication?._id}
               >
                 {processingId === selectedApplication?._id ? 'Processing...' : 'Reject Application'}
               </button>
-              <button 
-                className="btn" 
+              <button
+                className="btn"
                 onClick={() => {
                   setShowRejectModal(false);
                   setRejectionReason('');

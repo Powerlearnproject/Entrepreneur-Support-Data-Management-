@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getToken } from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
+import api from '../utils/Api';
 
 const Entrepreneurs = () => {
   const [entrepreneurs, setEntrepreneurs] = useState([]);
@@ -14,7 +15,7 @@ const Entrepreneurs = () => {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('http://localhost:5000/api/entrepreneurs', {
+      const res = await fetch(`${api}/entrepreneurs`, {
         headers: {
           Authorization: `Bearer ${getToken()}`,
         },

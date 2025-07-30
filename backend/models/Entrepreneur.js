@@ -5,13 +5,13 @@ const fundSchema = new mongoose.Schema({
   date: Date,
   usage: String,
   receipts: [String],
-}, { _id: false });
+});
 
 const supportActivitySchema = new mongoose.Schema({
   type: String,
   date: Date,
   notes: String,
-}, { _id: false });
+});
 
 const entrepreneurSchema = new mongoose.Schema({
   name: { type: String, required: true },

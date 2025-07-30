@@ -23,6 +23,17 @@ exports.getEntrepreneurs = async (req, res) => {
   }
 };
 
+exports.getApprovedEntrepreneurs = async (req, res) => {
+  try {
+    // Get approved applications to display publicly
+    const Application = require('../models/Application');
+    const approvedApplications = await Application.find({ status: 'approved' });
+    res.json(approvedApplications);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 exports.getEntrepreneurById = async (req, res) => {
   try {
     const entrepreneur = await Entrepreneur.findById(req.params.id);
@@ -51,4 +62,90 @@ exports.deleteEntrepreneur = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-}; 
+};
+
+// Fund management
+exports.addFund = async (req, res) => {
+  try {
+    const entrepreneur = await Entrepreneur.findById(req.params.id);
+    if (!entrepreneur) return res.status(404).json({ message: 'Entrepreneur not found' });
+    
+    entrepreneur.funds.push(req.body);
+    await entrepreneur.save();
+    res.status(201).json(entrepreneur);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.updateFund = async (req, res) => {
+  try {
+    const entrepreneur = await Entrepreneur.findById(req.params.id);
+    if (!entrepreneur) return res.status(404).json({ message: 'Entrepreneur not found' });
+    
+    const fund = entrepreneur.funds.id(req.params.fundId);
+    if (!fund) return res.status(404).json({ message: 'Fund not found' });
+    
+    Object.assign(fund, req.body);
+    await entrepreneur.save();
+    res.json(entrepreneur);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.deleteFund = async (req, res) => {
+  try {
+    const entrepreneur = await Entrepreneur.findById(req.params.id);
+    if (!entrepreneur) return res.status(404).json({ message: 'Entrepreneur not found' });
+    
+    entrepreneur.funds.id(req.params.fundId).remove();
+    await entrepreneur.save();
+    res.json(entrepreneur);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Support activity management
+exports.addSupportActivity = async (req, res) => {
+  try {
+    const entrepreneur = await Entrepreneur.findById(req.params.id);
+    if (!entrepreneur) return res.status(404).json({ message: 'Entrepreneur not found' });
+    
+    entrepreneur.supportActivities.push(req.body);
+    await entrepreneur.save();
+    res.status(201).json(entrepreneur);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.updateSupportActivity = async (req, res) => {
+  try {
+    const entrepreneur = await Entrepreneur.findById(req.params.id);
+    if (!entrepreneur) return res.status(404).json({ message: 'Entrepreneur not found' });
+    
+    const activity = entrepreneur.supportActivities.id(req.params.activityId);
+    if (!activity) return res.status(404).json({ message: 'Support activity not found' });
+    
+    Object.assign(activity, req.body);
+    await entrepreneur.save();
+    res.json(entrepreneur);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.deleteSupportActivity = async (req, res) => {
+  try {
+    const entrepreneur = await Entrepreneur.findById(req.params.id);
+    if (!entrepreneur) return res.status(404).json({ message: 'Entrepreneur not found' });
+    
+    entrepreneur.supportActivities.id(req.params.activityId).remove();
+    await entrepreneur.save();
+    res.json(entrepreneur);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

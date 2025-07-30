@@ -1,7 +1,7 @@
 import React from 'react';
 import { SidebarContent, SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from './ui/sidebar';
 import { useData } from '../contexts/DataContext';
-import { User } from '../App';
+import type { User } from '../App';
 import { 
   LayoutDashboard, 
   FileText, 

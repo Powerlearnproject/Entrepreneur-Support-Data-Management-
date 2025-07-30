@@ -19,7 +19,7 @@ import {
   UserCheck,
   Brain
 } from 'lucide-react';
-import { User } from '../App';
+import type { User } from '../App';
 
 interface AdminSidebarProps {
   user: User;

@@ -8,7 +8,7 @@ import { NotificationsPanel } from './client/NotificationsPanel';
 import { Settings } from './Settings';
 import { useRealtime } from '../contexts/RealtimeContext';
 import { useNotifications } from '../services/NotificationService';
-import { User } from '../App';
+import type { User } from '../App';
 
 interface ClientDashboardProps {
   user: User;

@@ -1,4 +1,4 @@
-import { FormData } from './types';
+import type { FormData } from './types';
 
 export const calculateProgress = (formData: FormData): number => {
   const requiredFields = [

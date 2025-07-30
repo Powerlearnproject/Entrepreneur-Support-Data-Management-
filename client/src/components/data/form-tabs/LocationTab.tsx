@@ -5,7 +5,7 @@ import { Card, CardContent } from '../../ui/card';
 import { Button } from '../../ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../../ui/dialog';
 import { MapPin, MapIcon } from 'lucide-react';
-import { FormData } from '../types';
+import type { FormData } from '../types';
 
 interface LocationTabProps {
   formData: FormData;

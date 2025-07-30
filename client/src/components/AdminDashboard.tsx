@@ -13,7 +13,7 @@ import { ExportReporting } from './reports/ExportReporting';
 import { PartnersIntegrations } from './admin/PartnersIntegrations';
 import { MLInsights } from './admin/MLInsights';
 import { ConsentLogs } from './admin/ConsentLogs';
-import { User } from '../App';
+import type { User } from '../App';
 import { useData } from '../contexts/DataContext';
 
 interface AdminDashboardProps {

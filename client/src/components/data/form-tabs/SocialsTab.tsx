@@ -2,7 +2,7 @@ import React from 'react';
 import { Input } from '../../ui/input';
 import { Label } from '../../ui/label';
 import { Globe, Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
-import { FormData } from '../types';
+import type { FormData } from '../types';
 
 interface SocialsTabProps {
   formData: FormData;

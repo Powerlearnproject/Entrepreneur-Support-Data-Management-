@@ -5,7 +5,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Alert, AlertDescription } from './ui/alert';
 import { Badge } from './ui/badge';
-import { User } from '../App';
+import type { User } from '../App';
 import { BarChart3, Shield, Users, Database, TrendingUp, AlertCircle } from 'lucide-react';
 
 interface AuthScreenProps {

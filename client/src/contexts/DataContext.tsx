@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Application } from '../App';
+import type { Application } from '../App';
 
 interface DataContextType {
   applications: Application[];

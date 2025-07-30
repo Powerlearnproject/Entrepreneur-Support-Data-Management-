@@ -18,7 +18,7 @@ import {
   ExternalLink,
   PlayCircle
 } from 'lucide-react';
-import { User } from '../../App';
+import type { User } from '../../App';
 
 interface EntrepreneurOverviewProps {
   user: User;

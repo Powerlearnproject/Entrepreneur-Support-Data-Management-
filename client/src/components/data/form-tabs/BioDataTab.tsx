@@ -4,7 +4,7 @@ import { Label } from '../../ui/label';
 import { Textarea } from '../../ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select';
 import { RadioGroup, RadioGroupItem } from '../../ui/radio-group';
-import { FormData } from '../types';
+import type { FormData } from '../types';
 import { COUNTRIES, EDUCATION_LEVELS } from '../constants';
 
 interface BioDataTabProps {

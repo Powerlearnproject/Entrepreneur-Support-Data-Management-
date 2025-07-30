@@ -1,7 +1,7 @@
 import React from 'react';
 import { Label } from '../../ui/label';
 import { Checkbox } from '../../ui/checkbox';
-import { FormData } from '../types';
+import type { FormData } from '../types';
 import { 
   MENTORSHIP_NEEDS, 
   TRAINING_NEEDS, 

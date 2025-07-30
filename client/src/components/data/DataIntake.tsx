@@ -9,7 +9,7 @@ import { Badge } from '../ui/badge';
 import { Alert, AlertDescription } from '../ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { useData } from '../../contexts/DataContext';
-import { Application } from '../../App';
+import type { Application } from '../../App';
 import { 
   Upload, 
   FileText, 
@@ -79,7 +79,7 @@ export function DataIntake() {
       setFormData(prev => ({
         ...prev,
         [parent]: {
-          ...prev[parent as keyof typeof prev],
+          ...(prev[parent as keyof typeof prev] as any),
           [child]: value
         }
       }));
@@ -240,7 +240,7 @@ export function DataIntake() {
                   </div>
                   <div>
                     <Label htmlFor="gender">Gender *</Label>
-                    <Select value={formData.gender} onValueChange={(value) => handleInputChange('gender', value)}>
+                    <Select value={formData.gender} onValueChange={(value: string) => handleInputChange('gender', value)}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select gender" />
                       </SelectTrigger>
@@ -278,7 +278,7 @@ export function DataIntake() {
                   </div>
                   <div>
                     <Label htmlFor="education">Education Level *</Label>
-                    <Select value={formData.education} onValueChange={(value) => handleInputChange('education', value)}>
+                    <Select value={formData.education} onValueChange={(value: string) => handleInputChange('education', value)}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select education level" />
                       </SelectTrigger>
@@ -406,7 +406,7 @@ export function DataIntake() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
                     <Label htmlFor="country">Country *</Label>
-                    <Select value={formData.country} onValueChange={(value) => handleInputChange('country', value)}>
+                    <Select value={formData.country} onValueChange={(value: string) => handleInputChange('country', value)}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select country" />
                       </SelectTrigger>
@@ -421,7 +421,7 @@ export function DataIntake() {
                   </div>
                   <div>
                     <Label htmlFor="valueChain">Value Chain *</Label>
-                    <Select value={formData.valueChain} onValueChange={(value) => handleInputChange('valueChain', value)}>
+                    <Select value={formData.valueChain} onValueChange={(value: string) => handleInputChange('valueChain', value)}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select value chain" />
                       </SelectTrigger>
@@ -436,7 +436,7 @@ export function DataIntake() {
                   </div>
                   <div>
                     <Label htmlFor="loanType">Loan Type *</Label>
-                    <Select value={formData.loanType} onValueChange={(value) => handleInputChange('loanType', value)}>
+                    <Select value={formData.loanType} onValueChange={(value: string) => handleInputChange('loanType', value)}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select loan type" />
                       </SelectTrigger>

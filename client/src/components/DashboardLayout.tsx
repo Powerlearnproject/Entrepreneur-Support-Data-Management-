@@ -13,7 +13,7 @@ import { Sidebar, SidebarContent, SidebarProvider, SidebarTrigger } from './ui/s
 import { useTheme } from './ThemeProvider';
 import { useNotifications } from '../services/NotificationService';
 import { useRealtime } from '../contexts/RealtimeContext';
-import { User } from '../App';
+import type { User } from '../App';
 import { 
   LogOut, 
   Moon, 

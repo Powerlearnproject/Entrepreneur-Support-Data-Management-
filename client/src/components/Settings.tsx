@@ -10,7 +10,7 @@ import { Separator } from './ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { useTheme } from './ThemeProvider';
-import { User } from '../App';
+import type { User } from '../App';
 import { 
   Camera, 
   User as UserIcon, 
@@ -93,7 +93,9 @@ export function Settings({ user, onUserUpdate, onLogout }: SettingsProps) {
       preferences: {
         ...editedUser.preferences,
         notifications: {
-          ...editedUser.preferences?.notifications,
+          email: editedUser.preferences?.notifications?.email ?? true,
+          push: editedUser.preferences?.notifications?.push ?? true,
+          sms: editedUser.preferences?.notifications?.sms ?? false,
           [type]: value
         }
       }
@@ -484,7 +486,7 @@ export function Settings({ user, onUserUpdate, onLogout }: SettingsProps) {
                   </div>
                   <Switch
                     checked={editedUser.preferences?.notifications?.email || false}
-                    onCheckedChange={(checked) => handleNotificationChange('email', checked)}
+                    onCheckedChange={(checked: boolean) => handleNotificationChange('email', checked)}
                   />
                 </div>
 
@@ -497,7 +499,7 @@ export function Settings({ user, onUserUpdate, onLogout }: SettingsProps) {
                   </div>
                   <Switch
                     checked={editedUser.preferences?.notifications?.push || false}
-                    onCheckedChange={(checked) => handleNotificationChange('push', checked)}
+                    onCheckedChange={(checked: boolean) => handleNotificationChange('push', checked)}
                   />
                 </div>
 
@@ -510,7 +512,7 @@ export function Settings({ user, onUserUpdate, onLogout }: SettingsProps) {
                   </div>
                   <Switch
                     checked={editedUser.preferences?.notifications?.sms || false}
-                    onCheckedChange={(checked) => handleNotificationChange('sms', checked)}
+                    onCheckedChange={(checked: boolean) => handleNotificationChange('sms', checked)}
                   />
                 </div>
               </div>

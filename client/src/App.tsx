@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { AuthScreen } from './components/AuthScreen.tsx';
-import { AdminDashboard } from './components/AdminDashboard.tsx';
-import { AnalystDashboard } from './components/AnalystDashboard.tsx';
-import { EntrepreneurDashboard } from './components/EntrepreneurDashboard.tsx';
-import { ThemeProvider } from './components/ThemeProvider.tsx';
-import { DataProvider } from './contexts/DataContext.tsx';
-import { RealtimeProvider } from './contexts/RealtimeContext.tsx';
+import { AuthScreen } from './components/AuthScreen';
+import { AdminDashboard } from './components/AdminDashboard';
+import { AnalystDashboard } from './components/AnalystDashboard';
+import { EntrepreneurDashboard } from './components/EntrepreneurDashboard';
+import { ThemeProvider } from './components/ThemeProvider';
+import { DataProvider } from './contexts/DataContext';
+import { RealtimeProvider } from './contexts/RealtimeContext';
 import {
   NotificationProvider,
   MobileNotificationToast
-} from './services/NotificationService.tsx';
-import { PWAInstallPrompt } from './components/PWAInstallPrompt.tsx';
+} from './services/NotificationService';
+import { PWAInstallPrompt } from './components/PWAInstallPrompt';
 
 export type UserRole = 'admin' | 'analyst' | 'program_officer' | 'entrepreneur';
 

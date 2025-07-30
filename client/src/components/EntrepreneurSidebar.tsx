@@ -16,7 +16,7 @@ import {
   Clock,
   AlertCircle
 } from 'lucide-react';
-import { User as UserType } from '../App';
+import type { User as UserType } from '../App';
 
 interface EntrepreneurSidebarProps {
   user: UserType;

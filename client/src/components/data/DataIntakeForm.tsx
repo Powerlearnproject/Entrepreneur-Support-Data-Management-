@@ -4,7 +4,7 @@ import { Button } from '../ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Progress } from '../ui/progress';
 import { FileText, User, Building, MapPin, Globe, Heart, Upload } from 'lucide-react';
-import { FormData, DocumentUploads, TabItem } from './types';
+import type { FormData, DocumentUploads, TabItem } from './types';
 import { calculateProgress } from './helpers';
 import { BioDataTab } from './form-tabs/BioDataTab';
 import { BusinessInfoTab } from './form-tabs/BusinessInfoTab';

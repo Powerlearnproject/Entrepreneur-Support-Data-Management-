@@ -7,7 +7,7 @@ import { TrackReports } from './entrepreneur/TrackReports';
 import { LoanEducation } from './entrepreneur/LoanEducation';
 import { EntrepreneurNotifications } from './entrepreneur/EntrepreneurNotifications';
 import { EntrepreneurProfile } from './entrepreneur/EntrepreneurProfile';
-import { User } from '../App';
+import type { User } from '../App';
 
 interface EntrepreneurDashboardProps {
   user: User;

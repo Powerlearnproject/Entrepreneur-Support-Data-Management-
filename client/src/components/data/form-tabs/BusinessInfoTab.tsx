@@ -2,7 +2,7 @@ import React from 'react';
 import { Input } from '../../ui/input';
 import { Label } from '../../ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select';
-import { FormData } from '../types';
+import type { FormData } from '../types';
 import { BUSINESS_TYPES, REVENUE_FREQUENCIES } from '../constants';
 
 interface BusinessInfoTabProps {

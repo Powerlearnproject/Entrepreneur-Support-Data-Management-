@@ -4,7 +4,7 @@ import { Label } from '../../ui/label';
 import { Card, CardContent } from '../../ui/card';
 import { Button } from '../../ui/button';
 import { Upload, CheckCircle } from 'lucide-react';
-import { DocumentUploads } from '../types';
+import type { DocumentUploads } from '../types';
 
 interface DocumentsTabProps {
   documents: DocumentUploads;

@@ -7,7 +7,7 @@ import { DocumentViewer } from './documents/DocumentViewer';
 import { ReportsViewer } from './reports/ReportsViewer';
 import { Settings } from './Settings';
 import { useData } from '../contexts/DataContext';
-import { User } from '../App';
+import type { User } from '../App';
 
 interface AnalystDashboardProps {
   user: User;

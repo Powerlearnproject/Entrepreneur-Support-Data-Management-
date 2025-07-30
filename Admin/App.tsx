@@ -8,7 +8,6 @@ import { DataProvider } from './contexts/DataContext';
 import { RealtimeProvider } from './contexts/RealtimeContext';
 import { NotificationProvider, MobileNotificationToast } from './services/NotificationService';
 import { PWAInstallPrompt } from './components/PWAInstallPrompt';
-
 export type UserRole = 'admin' | 'analyst' | 'program_officer' | 'entrepreneur';
 
 export interface User {

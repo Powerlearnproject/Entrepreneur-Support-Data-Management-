@@ -94,13 +94,13 @@ decision-makers and funders.
 
 ## Authentication & Roles
 
-### Admin Roles:
+### Admin Roles
 
 - Super Admin– Full access
 - Reviewer – Application review rights
 - Analyst – Read-only + export
 
-### Entrepreneur Roles:
+### Entrepreneur Roles
 
 - OTP/Email Registration
 - View-only dashboards

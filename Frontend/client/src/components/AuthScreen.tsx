@@ -1,74 +1,63 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { Alert, AlertDescription } from './ui/alert';
-import { Badge } from './ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
-import type { User } from '../App';
-import { BarChart3, Shield, Users, Database, TrendingUp, AlertCircle, Mail, Lock, Eye, EyeOff, Building2, MapPin, Phone, Globe } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { 
+  Mail, 
+  Lock, 
+  Eye, 
+  EyeOff, 
+  Building2, 
+  MapPin, 
+  Phone, 
+  Globe,
+  ArrowRight,
+  CheckCircle,
+  AlertCircle
+} from 'lucide-react';
 
 interface AuthScreenProps {
-  onLogin: (user: User) => void;
-  isAnalyticalPlatform?: boolean;
+  onLogin: (userData: any) => void;
 }
 
-export function AuthScreen({ onLogin, isAnalyticalPlatform = false }: AuthScreenProps) {
+export default function AuthScreen({ onLogin }: AuthScreenProps) {
+  const [activeTab, setActiveTab] = useState('admin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [otp, setOtp] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [otpSent, setOtpSent] = useState(false);
-  const [activeTab, setActiveTab] = useState('admin');
 
   const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
-    // Demo authentication logic
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/admin/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    // Demo users for the analytical platform
-    const demoUsers = {
-      'admin@heva.org': {
-        id: 'admin-1',
-        name: 'Sarah Mwangi',
-        role: 'admin' as const,
-        email: 'admin@heva.org',
-        department: 'Administration',
-        location: 'Nairobi, Kenya'
-      },
-      'analyst@heva.org': {
-        id: 'analyst-1',
-        name: 'James Kiprotich',
-        role: 'analyst' as const,
-        email: 'analyst@heva.org',
-        department: 'Data Analytics',
-        location: 'Kampala, Uganda'
-      },
-      'program@heva.org': {
-        id: 'program-1',
-        name: 'Grace Njeri',
-        role: 'program_officer' as const,
-        email: 'program@heva.org',
-        department: 'Program Management',
-        location: 'Kigali, Rwanda'
+      const data = await response.json();
+
+      if (response.ok) {
+        onLogin(data);
+      } else {
+        setError(data.error || 'Login failed');
       }
-    };
-
-    const user = demoUsers[email as keyof typeof demoUsers];
-    
-    if (user && password === 'demo123') {
-      onLogin(user);
-    } else {
-      setError('Invalid credentials. Try admin@heva.org, analyst@heva.org, or program@heva.org with password: demo123');
+    } catch (err) {
+      setError('Network error. Please try again.');
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   const handleEntrepreneurLogin = async (e: React.FormEvent) => {
@@ -76,304 +65,388 @@ export function AuthScreen({ onLogin, isAnalyticalPlatform = false }: AuthScreen
     setLoading(true);
     setError('');
 
-    if (!otpSent) {
-      // Send OTP
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setOtpSent(true);
-      setError('');
-    } else {
-      // Verify OTP
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      if (otp === '123456') {
-        const entrepreneurUser = {
-          id: 'entrepreneur-1',
-          name: 'John Doe',
-          role: 'entrepreneur' as const,
-          email: email,
-          phone: '+254700000000',
-          businessInfo: {
-            businessName: 'Creative Solutions Ltd',
-            valueChain: 'Technology',
-            employees: 5,
-            establishedYear: 2022
-          },
-          applicationStatus: {
-            hasActiveApplication: true,
-            currentStage: 'Under Review',
-            lastUpdate: new Date().toISOString(),
-            applicationId: 'APP-001'
-          }
-        };
-        onLogin(entrepreneurUser);
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/entrepreneur/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setOtpSent(true);
+        setError('');
       } else {
-        setError('Invalid OTP. Use 123456 for demo.');
+        setError(data.error || 'Failed to send OTP');
       }
+    } catch (err) {
+      setError('Network error. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleOTPVerification = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/verify-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, otp }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        onLogin(data);
+      } else {
+        setError(data.error || 'Invalid OTP');
+      }
+    } catch (err) {
+      setError('Network error. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      setError('Please enter your email address');
+      return;
     }
 
-    setLoading(false);
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/forgot-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setError('');
+        alert('Password reset OTP sent to your email');
+      } else {
+        setError(data.error || 'Failed to send reset OTP');
+      }
+    } catch (err) {
+      setError('Network error. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex">
-      {/* Left Side - Hero Section */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-blue-600 to-purple-700 text-white p-12 flex-col justify-between">
+    <div className="min-h-screen flex">
+      {/* Left Side - Branding */}
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white p-12 flex-col justify-between">
         <div>
           <div className="flex items-center space-x-3 mb-8">
-            <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-              <BarChart3 className="w-7 h-7 text-white" />
+            <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+              <Building2 className="w-6 h-6" />
             </div>
-            <div>
-              <h1 className="text-2xl font-bold">HEVA CreativeHub</h1>
-              <p className="text-blue-100 text-sm">Entrepreneur Support Platform</p>
-            </div>
+            <h1 className="text-2xl font-bold">HEVA CreativeHub</h1>
           </div>
           
-          <div className="space-y-8">
-            <div>
-              <h2 className="text-4xl font-bold mb-4">Empowering Creative Entrepreneurs</h2>
-              <p className="text-xl text-blue-100 leading-relaxed">
-                Comprehensive data management and funding support for creative businesses across East Africa
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-6">
-              <div className="space-y-3">
-                <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
-                  <Database className="w-6 h-6" />
-                </div>
-                <h3 className="font-semibold">Smart Data Collection</h3>
-                <p className="text-blue-100 text-sm">Streamlined application process with intelligent forms</p>
-              </div>
-              <div className="space-y-3">
-                <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
-                  <TrendingUp className="w-6 h-6" />
-                </div>
-                <h3 className="font-semibold">Real-time Analytics</h3>
-                <p className="text-blue-100 text-sm">Live insights and performance tracking</p>
-              </div>
-              <div className="space-y-3">
-                <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
-                  <Shield className="w-6 h-6" />
-                </div>
-                <h3 className="font-semibold">Secure Platform</h3>
-                <p className="text-blue-100 text-sm">GDPR compliant with enterprise security</p>
-              </div>
-              <div className="space-y-3">
-                <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
-                  <Globe className="w-6 h-6" />
-                </div>
-                <h3 className="font-semibold">Multi-Country</h3>
-                <p className="text-blue-100 text-sm">Supporting Kenya, Uganda, Rwanda & more</p>
-              </div>
-            </div>
+          <div className="max-w-md">
+            <h2 className="text-4xl font-bold mb-6">
+              Empowering Entrepreneurs Through Data-Driven Support
+            </h2>
+            <p className="text-blue-100 text-lg leading-relaxed">
+              Join our comprehensive platform for entrepreneurial success. 
+              Access funding, track progress, and grow your business with 
+              our analytical tools and support network.
+            </p>
           </div>
         </div>
-        
-        <div className="text-blue-100">
-          <p className="text-sm">Built with ❤️ by the HEVA CreativeHub Team</p>
+
+        <div className="space-y-4">
+          <div className="flex items-center space-x-3">
+            <CheckCircle className="w-5 h-5 text-green-300" />
+            <span>AI-Powered Loan Analysis</span>
+          </div>
+          <div className="flex items-center space-x-3">
+            <CheckCircle className="w-5 h-5 text-green-300" />
+            <span>Real-time Progress Tracking</span>
+          </div>
+          <div className="flex items-center space-x-3">
+            <CheckCircle className="w-5 h-5 text-green-300" />
+            <span>Comprehensive Analytics Dashboard</span>
+          </div>
         </div>
       </div>
 
       {/* Right Side - Login Form */}
-      <div className="flex-1 flex items-center justify-center p-8">
-        <div className="w-full max-w-md space-y-8">
-          {/* Mobile Header */}
-          <div className="lg:hidden text-center mb-8">
-            <div className="flex items-center justify-center space-x-3 mb-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-700 rounded-xl flex items-center justify-center">
-                <BarChart3 className="w-7 h-7 text-white" />
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
+        <div className="w-full max-w-md">
+          {/* Mobile Logo */}
+          <div className="lg:hidden flex items-center justify-center mb-8">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                <Building2 className="w-6 h-6 text-white" />
               </div>
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-700 bg-clip-text text-transparent">
-                  HEVA CreativeHub
-                </h1>
-                <p className="text-sm text-muted-foreground">Entrepreneur Support Platform</p>
-              </div>
+              <h1 className="text-2xl font-bold text-gray-900">HEVA CreativeHub</h1>
             </div>
           </div>
 
-          {/* Login Tabs */}
-          <div className="space-y-6">
-            <div className="text-center">
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h2>
-              <p className="text-gray-600">Sign in to your account to continue</p>
-            </div>
+          <Card className="border-0 shadow-lg">
+            <CardHeader className="text-center pb-6">
+              <CardTitle className="text-2xl font-bold text-gray-900">
+                Welcome Back
+              </CardTitle>
+              <CardDescription className="text-gray-600">
+                Sign in to your account to continue
+              </CardDescription>
+            </CardHeader>
 
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="admin" className="flex items-center space-x-2">
-                  <Building2 className="w-4 h-4" />
-                  <span>Admin</span>
-                </TabsTrigger>
-                <TabsTrigger value="entrepreneur" className="flex items-center space-x-2">
-                  <Users className="w-4 h-4" />
-                  <span>Entrepreneur</span>
-                </TabsTrigger>
-              </TabsList>
+            <CardContent>
+              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                <TabsList className="grid w-full grid-cols-2 mb-6">
+                  <TabsTrigger value="admin" className="text-sm font-medium">
+                    Admin Login
+                  </TabsTrigger>
+                  <TabsTrigger value="entrepreneur" className="text-sm font-medium">
+                    Entrepreneur Login
+                  </TabsTrigger>
+                </TabsList>
 
-              <TabsContent value="admin" className="space-y-4">
-                <form onSubmit={handleAdminLogin} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="admin-email" className="text-sm font-medium">Email Address</Label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                      <Input
-                        id="admin-email"
-                        type="email"
-                        placeholder="Enter your email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="pl-10"
-                        required
-                      />
+                {/* Admin Login Tab */}
+                <TabsContent value="admin" className="space-y-4">
+                  <form onSubmit={handleAdminLogin} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="admin-email" className="text-sm font-medium text-gray-700">
+                        Email Address
+                      </Label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                        <Input
+                          id="admin-email"
+                          type="email"
+                          placeholder="Enter your email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="pl-10 h-12"
+                          required
+                        />
+                      </div>
                     </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="admin-password" className="text-sm font-medium">Password</Label>
-                    <div className="relative">
-                      <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                      <Input
-                        id="admin-password"
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Enter your password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="pl-10 pr-10"
-                        required
-                      />
+
+                    <div className="space-y-2">
+                      <Label htmlFor="admin-password" className="text-sm font-medium text-gray-700">
+                        Password
+                      </Label>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                        <Input
+                          id="admin-password"
+                          type={showPassword ? 'text' : 'password'}
+                          placeholder="Enter your password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          className="pl-10 pr-10 h-12"
+                          required
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                        >
+                          {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between">
                       <button
                         type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                        onClick={handleForgotPassword}
+                        className="text-sm text-blue-600 hover:text-blue-700 font-medium"
                       >
-                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        Forgot password?
                       </button>
                     </div>
-                  </div>
 
-                  {error && (
-                    <Alert>
-                      <AlertCircle className="h-4 w-4" />
-                      <AlertDescription>{error}</AlertDescription>
-                    </Alert>
-                  )}
+                    {error && (
+                      <div className="flex items-center space-x-2 text-red-600 text-sm">
+                        <AlertCircle className="w-4 h-4" />
+                        <span>{error}</span>
+                      </div>
+                    )}
 
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-700 hover:from-blue-700 hover:to-purple-800"
-                    disabled={loading}
-                  >
-                    {loading ? 'Signing in...' : 'Sign In'}
-                  </Button>
-                </form>
+                    <Button
+                      type="submit"
+                      className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium"
+                      disabled={loading}
+                    >
+                      {loading ? (
+                        <div className="flex items-center space-x-2">
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                          <span>Signing in...</span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center space-x-2">
+                          <span>Sign In</span>
+                          <ArrowRight className="w-4 h-4" />
+                        </div>
+                      )}
+                    </Button>
+                  </form>
+                </TabsContent>
 
-                {/* Demo Credentials */}
-                <div className="p-4 bg-gray-50 rounded-lg border">
-                  <h4 className="font-medium text-sm mb-3 flex items-center text-gray-700">
-                    <Shield className="w-4 h-4 mr-2" />
-                    Demo Credentials
-                  </h4>
-                  <div className="space-y-2 text-xs text-gray-600">
-                    <div className="flex items-center justify-between">
-                      <span>Admin:</span>
-                      <Badge variant="outline">admin@heva.org</Badge>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span>Analyst:</span>
-                      <Badge variant="outline">analyst@heva.org</Badge>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span>Program Officer:</span>
-                      <Badge variant="outline">program@heva.org</Badge>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span>Password:</span>
-                      <Badge variant="outline">demo123</Badge>
-                    </div>
-                  </div>
-                </div>
-              </TabsContent>
+                {/* Entrepreneur Login Tab */}
+                <TabsContent value="entrepreneur" className="space-y-4">
+                  {!otpSent ? (
+                    <form onSubmit={handleEntrepreneurLogin} className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="entrepreneur-email" className="text-sm font-medium text-gray-700">
+                          Email Address
+                        </Label>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                          <Input
+                            id="entrepreneur-email"
+                            type="email"
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="pl-10 h-12"
+                            required
+                          />
+                        </div>
+                      </div>
 
-              <TabsContent value="entrepreneur" className="space-y-4">
-                <form onSubmit={handleEntrepreneurLogin} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="entrepreneur-email" className="text-sm font-medium">Email Address</Label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                      <Input
-                        id="entrepreneur-email"
-                        type="email"
-                        placeholder="Enter your email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="pl-10"
-                        required
-                        disabled={otpSent}
-                      />
-                    </div>
-                  </div>
-                  
-                  {otpSent && (
-                    <div className="space-y-2">
-                      <Label htmlFor="otp" className="text-sm font-medium">OTP Code</Label>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <div className="flex items-start space-x-3">
+                          <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center mt-0.5">
+                            <Globe className="w-3 h-3 text-blue-600" />
+                          </div>
+                          <div>
+                            <p className="text-sm text-blue-800 font-medium mb-1">
+                              OTP Verification
+                            </p>
+                            <p className="text-xs text-blue-700">
+                              We'll send a one-time password to your email for secure login.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {error && (
+                        <div className="flex items-center space-x-2 text-red-600 text-sm">
+                          <AlertCircle className="w-4 h-4" />
+                          <span>{error}</span>
+                        </div>
+                      )}
+
+                      <Button
+                        type="submit"
+                        className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium"
+                        disabled={loading}
+                      >
+                        {loading ? (
+                          <div className="flex items-center space-x-2">
+                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                            <span>Sending OTP...</span>
+                          </div>
+                        ) : (
+                          <div className="flex items-center space-x-2">
+                            <span>Send OTP</span>
+                            <ArrowRight className="w-4 h-4" />
+                          </div>
+                        )}
+                      </Button>
+                    </form>
+                  ) : (
+                    <form onSubmit={handleOTPVerification} className="space-y-4">
+                      <div className="text-center mb-6">
+                        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <CheckCircle className="w-8 h-8 text-green-600" />
+                        </div>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                          Check Your Email
+                        </h3>
+                        <p className="text-sm text-gray-600">
+                          We've sent a 6-digit code to <span className="font-medium">{email}</span>
+                        </p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="otp" className="text-sm font-medium text-gray-700">
+                          Enter OTP Code
+                        </Label>
                         <Input
                           id="otp"
                           type="text"
-                          placeholder="Enter 6-digit OTP"
+                          placeholder="Enter 6-digit code"
                           value={otp}
                           onChange={(e) => setOtp(e.target.value)}
-                          className="pl-10"
+                          className="h-12 text-center text-lg font-mono tracking-widest"
                           maxLength={6}
                           required
                         />
                       </div>
-                      <p className="text-xs text-gray-500">We've sent a 6-digit code to your email</p>
-                    </div>
-                  )}
 
-                  {error && (
-                    <Alert>
-                      <AlertCircle className="h-4 w-4" />
-                      <AlertDescription>{error}</AlertDescription>
-                    </Alert>
-                  )}
-
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-700 hover:from-blue-700 hover:to-purple-800"
-                    disabled={loading}
-                  >
-                    {loading ? (otpSent ? 'Verifying...' : 'Sending OTP...') : (otpSent ? 'Verify OTP' : 'Send OTP')}
-                  </Button>
-                </form>
-
-                {/* Demo OTP */}
-                {otpSent && (
-                  <div className="p-4 bg-gray-50 rounded-lg border">
-                    <h4 className="font-medium text-sm mb-3 flex items-center text-gray-700">
-                      <Shield className="w-4 h-4 mr-2" />
-                      Demo OTP
-                    </h4>
-                    <div className="text-xs text-gray-600">
-                      <div className="flex items-center justify-between">
-                        <span>OTP Code:</span>
-                        <Badge variant="outline">123456</Badge>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-gray-600">Didn't receive the code?</span>
+                        <button
+                          type="button"
+                          onClick={() => setOtpSent(false)}
+                          className="text-blue-600 hover:text-blue-700 font-medium"
+                        >
+                          Resend
+                        </button>
                       </div>
-                    </div>
-                  </div>
-                )}
-              </TabsContent>
-            </Tabs>
-          </div>
+
+                      {error && (
+                        <div className="flex items-center space-x-2 text-red-600 text-sm">
+                          <AlertCircle className="w-4 h-4" />
+                          <span>{error}</span>
+                        </div>
+                      )}
+
+                      <Button
+                        type="submit"
+                        className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium"
+                        disabled={loading || otp.length !== 6}
+                      >
+                        {loading ? (
+                          <div className="flex items-center space-x-2">
+                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                            <span>Verifying...</span>
+                          </div>
+                        ) : (
+                          <div className="flex items-center space-x-2">
+                            <span>Verify & Sign In</span>
+                            <ArrowRight className="w-4 h-4" />
+                          </div>
+                        )}
+                      </Button>
+                    </form>
+                  )}
+                </TabsContent>
+              </Tabs>
+            </CardContent>
+          </Card>
 
           {/* Footer */}
-          <div className="text-center text-xs text-gray-500">
-            <p>HEVA CreativeHub - Supporting entrepreneurship across East Africa</p>
-            <p className="mt-1">© 2024 HEVA CreativeHub. All rights reserved.</p>
+          <div className="text-center mt-8">
+            <p className="text-sm text-gray-600">
+              © 2024 HEVA CreativeHub. All rights reserved.
+            </p>
           </div>
         </div>
       </div>

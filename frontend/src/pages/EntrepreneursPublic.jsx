@@ -48,7 +48,7 @@ const EntrepreneursPublic = () => {
                 </figure>
                 <div className="card-body">
                   <h2 className="card-title">{e.orgName || e.name}</h2>
-                  <p className="text-sm text-gray-600">{e.reason || 'No description provided.'}</p>
+                  <p className="text-sm text-gray-600">{e.plan || 'No description provided.'}</p>
                   <div className="mt-4 space-y-1 text-sm">
                     {e.orgWebsite && (
                       <div>

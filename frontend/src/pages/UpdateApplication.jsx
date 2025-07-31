@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PhotoIcon } from '@heroicons/react/24/solid';
 import Footer from '../components/Footer';
+import API from '../utils/Api';
 
-const Apply = () => {
+const UpdateApplication = () => {
   const [form, setForm] = useState({
-    name:'',
+    name: '',
     email: '',
     orgName: '',
     orgWebsite: '',
@@ -14,9 +15,45 @@ const Apply = () => {
     plans: '',
     image: null,
   });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { id } = useParams(); 
+
+  useEffect(() => {
+    const fetchEntrepreneur = async () => {
+      if (!id) return;
+
+      try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(`${API}/entrepreneurs/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) throw new Error('Failed to load entrepreneur data');
+
+        const data = await res.json();
+
+        setForm({
+          name: data.name || '',
+          email: data.contactInfo || '',
+          orgName: data.businessName || '',
+          orgWebsite: data.website || '',
+          reasons: data.reasons || '',
+          supportNeeds: data.supportNeeds || '',
+          plans: data.plans || '',
+          image: null,
+        });
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    fetchEntrepreneur();
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -30,21 +67,30 @@ const Apply = () => {
     e.preventDefault();
     setLoading(true);
     setError('');
+
     try {
       const formData = new FormData();
       Object.entries(form).forEach(([key, value]) => {
         if (value) formData.append(key, value);
       });
 
-      const res = await fetch('http://localhost:5000/api/applications', {
+      formData.append('entrepreneurId', id);
+      formData.append('isUpdate', true);
+
+      const token = localStorage.getItem('token');
+
+      const res = await fetch(`${API}/applications/update`, {
         method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         body: formData,
       });
 
-      if (!res.ok) throw new Error('Failed to submit application');
+      if (!res.ok) throw new Error('Failed to submit update request');
 
-      alert('✅ Application submitted successfully!');
-      navigate('/apply/confirmation');
+      alert('✅ Update submitted and pending approval!');
+      navigate('/dashboard');
     } catch (err) {
       setError(err.message);
     } finally {
@@ -57,30 +103,28 @@ const Apply = () => {
       <div className="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
-            Apply as an Entrepreneur
+            Request an Update
           </h2>
           <p className="mt-2 text-lg text-gray-600">
-            Share your vision, upload your logo, and tell us why you want to join HEVA.
+            Modify your profile info. Submissions must be approved by admin.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} encType="multipart/form-data" className="mx-auto mt-16 max-w-2xl sm:mt-20">
           {error && <div className="alert alert-error mb-4">{error}</div>}
-
           <div className="space-y-6">
-             {/* Name */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-900">Name</label>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-900">Name</label>
               <input
                 type="text"
                 name="name"
                 value={form.name}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-3.5 focus:ring-indigo-500 focus:border-indigo-500"
                 required
+                className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-3.5"
               />
             </div>
-            {/* Email */}
+
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-900">Email</label>
               <input
@@ -88,12 +132,11 @@ const Apply = () => {
                 name="email"
                 value={form.email}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-3.5 focus:ring-indigo-500 focus:border-indigo-500"
                 required
+                className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-3.5"
               />
             </div>
 
-            {/* Org Name */}
             <div>
               <label htmlFor="orgName" className="block text-sm font-medium text-gray-900">Organization Name</label>
               <input
@@ -101,12 +144,11 @@ const Apply = () => {
                 name="orgName"
                 value={form.orgName}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-3.5 focus:ring-indigo-500 focus:border-indigo-500"
                 required
+                className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-3.5"
               />
             </div>
 
-            {/* Org Website */}
             <div>
               <label htmlFor="orgWebsite" className="block text-sm font-medium text-gray-900">Organization Website/Link</label>
               <input
@@ -114,12 +156,11 @@ const Apply = () => {
                 name="orgWebsite"
                 value={form.orgWebsite}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-3.5 focus:ring-indigo-500 focus:border-indigo-500"
                 required
+                className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-3.5"
               />
             </div>
 
-            {/* Reasons */}
             <div>
               <label htmlFor="reasons" className="block text-sm font-medium text-gray-900">Reasons for Joining HEVA</label>
               <textarea
@@ -127,12 +168,11 @@ const Apply = () => {
                 value={form.reasons}
                 onChange={handleChange}
                 rows={4}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
                 required
+                className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-2"
               />
             </div>
 
-            {/* Support Needs */}
             <div>
               <label htmlFor="supportNeeds" className="block text-sm font-medium text-gray-900">Support/Funding Needs</label>
               <textarea
@@ -140,12 +180,11 @@ const Apply = () => {
                 value={form.supportNeeds}
                 onChange={handleChange}
                 rows={4}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
                 required
+                className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-2"
               />
             </div>
 
-            {/* New: Short & Long-term Plans */}
             <div>
               <label htmlFor="plans" className="block text-sm font-medium text-gray-900">
                 Short & Long-term Plans / Where You See Your Organization with HEVA's Help
@@ -155,15 +194,13 @@ const Apply = () => {
                 value={form.plans}
                 onChange={handleChange}
                 rows={5}
-                placeholder="Briefly describe your short and long-term goals and your projected trajectory."
-                className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
                 required
+                className="mt-1 block w-full rounded-md border border-gray-300 px-4 py-2"
               />
             </div>
 
-            {/* Upload Logo */}
             <div>
-              <label htmlFor="image" className="block text-sm font-medium text-gray-900">Upload Logo/Image</label>
+              <label htmlFor="image" className="block text-sm font-medium text-gray-900">Upload New Logo (optional)</label>
               <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-300 px-6 py-10">
                 <div className="text-center">
                   <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
@@ -177,7 +214,6 @@ const Apply = () => {
                         accept="image/*"
                         className="sr-only"
                         onChange={handleChange}
-                        required
                       />
                     </label>
                     <p className="pl-1">or drag and drop</p>
@@ -188,14 +224,13 @@ const Apply = () => {
             </div>
           </div>
 
-          {/* Submit Button */}
           <div className="mt-10">
             <button
               type="submit"
-              className="w-full rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
               disabled={loading}
             >
-              {loading ? 'Submitting...' : 'Apply to join'}
+              {loading ? 'Submitting Update...' : 'Submit Update for Review'}
             </button>
           </div>
         </form>
@@ -206,4 +241,4 @@ const Apply = () => {
   );
 };
 
-export default Apply;
+export default UpdateApplication;

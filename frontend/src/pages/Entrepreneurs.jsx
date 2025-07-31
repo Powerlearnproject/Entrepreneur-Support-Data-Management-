@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getToken } from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
-import api from '../utils/Api';
+import API from '../utils/Api';
 
 
 
@@ -17,7 +17,7 @@ const Entrepreneurs = () => {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`${api}/entrepreneurs`, {
+      const res = await fetch(`${API}/entrepreneurs`, {
         headers: {
           Authorization: `Bearer ${getToken()}`,
         },
@@ -41,7 +41,7 @@ const Entrepreneurs = () => {
     setDeletingId(id);
     setDeleteError('');
     try {
-      const res = await fetch(`http://localhost:5000/api/entrepreneurs/${id}`, {
+      const res = await fetch(`${API}/entrepreneurs/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${getToken()}`,

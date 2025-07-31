@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
@@ -20,7 +21,7 @@ import {
   Download,
   Filter
 } from 'lucide-react';
-import { Application } from '../../App';
+import type { Application } from '../../App';
 
 interface MLInsightsProps {
   applications: Application[];

@@ -118,7 +118,7 @@ decision-makers and funders.
 
 - Admin Dashboard: [https://rhyme-crow-88911875.figma.site](https://rhyme-crow-88911875.figma.site)
 - Entrepreneur Dashboard: [https://size-liver-77683721.figma.site](https://size-liver-77683721.figma.site)
-- Pitch Deck: [View Pitch Deck on Canva](https://www.canva.com/design/DAGuqmTiEHc/rrqmBE9BfvKYOHLjfyXPGQ/edit?utm_content=DAGuqmTiEHc&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+- Pitch Deck: [View Pitch Deck on Canva](https://www.canva.com/design/DAGusOZfSjM/QrX_EXZIK5MW_jki2kqgBA/edit?utm_content=DAGusOZfSjM&utm_campaign=designshare&utm_medium=link2&utm_sources=sharebutton)
 
 ## Development Roadmap
 

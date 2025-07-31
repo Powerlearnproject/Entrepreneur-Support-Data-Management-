@@ -1,0 +1,37 @@
+{
+  "name": "heva-creativehub",
+  "version": "1.0.0",
+  "description": "HEVA CreativeHub - Analytical Application for Entrepreneur Support Data Management",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd Backend && npm run dev",
+    "client": "cd Frontend && npm run dev",
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:backend": "cd Backend && npm run build",
+    "build:frontend": "cd Frontend && npm run build",
+    "install:all": "npm install && cd Backend && npm install && cd ../Frontend && npm install",
+    "start": "cd Backend && npm start",
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:backend": "cd Backend && npm test",
+    "test:frontend": "cd Frontend && npm test"
+  },
+  "keywords": [
+    "entrepreneur-support",
+    "data-management",
+    "analytics",
+    "loan-management",
+    "react",
+    "nodejs",
+    "postgresql"
+  ],
+  "author": "HEVA CreativeHub Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "workspaces": [
+    "Frontend",
+    "Backend"
+  ]
+} 

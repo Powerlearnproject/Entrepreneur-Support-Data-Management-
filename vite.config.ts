@@ -46,18 +46,6 @@ export default defineConfig({
             sizes: '512x512',
             type: 'image/svg+xml',
             purpose: 'any maskable'
-          },
-          {
-            src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%230f766e" rx="20"/><text x="50" y="70" font-size="60" text-anchor="middle" fill="white">🚀</text></svg>',
-            sizes: '144x144',
-            type: 'image/svg+xml',
-            purpose: 'any maskable'
-          },
-          {
-            src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%230f766e" rx="20"/><text x="50" y="70" font-size="60" text-anchor="middle" fill="white">🚀</text></svg>',
-            sizes: '72x72',
-            type: 'image/svg+xml',
-            purpose: 'any maskable'
           }
         ]
       }
@@ -66,4 +54,32 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    sourcemap: false,
+    minify: 'terser',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          router: ['react-router-dom'],
+          icons: ['lucide-react']
+        }
+      }
+    }
+  },
+  server: {
+    host: '0.0.0.0',
+    port: 5173,
+    strictPort: true,
+    hmr: {
+      port: 5173
+    }
+  },
+  preview: {
+    host: '0.0.0.0',
+    port: 4173,
+    strictPort: true
+  }
 });

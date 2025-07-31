@@ -15,6 +15,9 @@ import Applications from './pages/Applications';
 import ProtectedRoute from './components/ProtectedRoute';
 import { isLoggedIn, logout, getUser } from './utils/auth';
 
+import AdminFundPage from './pages/AdminFundPage';
+<Route path="/admin/funds" element={<AdminFundPage />} />
+
 const AppContent = () => {
   const navigate = useNavigate();
   const loggedIn = isLoggedIn();
@@ -72,6 +75,7 @@ const AppContent = () => {
         <Route path="/entrepreneurs/new" element={<ProtectedRoute><EntrepreneurForm /></ProtectedRoute>} />
         <Route path="/entrepreneurs/:id" element={<ProtectedRoute><EntrepreneurDetails /></ProtectedRoute>} />
         <Route path="/entrepreneurs/:id/edit" element={<ProtectedRoute><EntrepreneurForm /></ProtectedRoute>} />
+           <Route path="/admin/funds" element={<AdminFundPage />} />
       </Routes>
     </div>
   );

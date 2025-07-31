@@ -3,6 +3,8 @@ import { getToken } from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
 import api from '../utils/Api';
 
+
+
 const Entrepreneurs = () => {
   const [entrepreneurs, setEntrepreneurs] = useState([]);
   const [loading, setLoading] = useState(true);

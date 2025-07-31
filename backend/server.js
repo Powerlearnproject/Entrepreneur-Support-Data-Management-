@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const path = require('path');
+const fundRoutes = require('./routes/fundRoutes');
 
 // Load environment variables
 dotenv.config();
@@ -15,6 +16,8 @@ app.use(cors());
 mongoose.connect(process.env.MONGO_URI, {})
 .then(() => console.log('MongoDB connected'))
 .catch((err) => console.error('MongoDB connection error:', err));
+
+app.use('/api/funds', fundRoutes);
 
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
@@ -34,3 +37,6 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`)); 
+
+
+

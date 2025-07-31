@@ -1,16 +1,18 @@
 import React from 'react';
 import { getUser } from '../utils/auth';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const user = getUser();
-  
+  const navigate = useNavigate(); 
+
   return (
     <div className="p-8">
       <div className="text-2xl font-bold mb-6">Welcome, {user?.name}!</div>
-      
+
       {user?.role === 'admin' && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Applications */}
           <div className="card bg-base-100 shadow-xl">
             <div className="card-body">
               <h2 className="card-title">Applications</h2>
@@ -20,7 +22,8 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          
+
+          {/* Entrepreneurs */}
           <div className="card bg-base-100 shadow-xl">
             <div className="card-body">
               <h2 className="card-title">Entrepreneurs</h2>
@@ -30,7 +33,8 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          
+
+          {/* Public View */}
           <div className="card bg-base-100 shadow-xl">
             <div className="card-body">
               <h2 className="card-title">Public View</h2>
@@ -40,9 +44,21 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
+
+          {/*  Track Funds */}
+          <div className="card bg-base-100 shadow-xl">
+            <div className="card-body">
+              <h2 className="card-title"> Track Funds</h2>
+              <p>Monitor how much funds have been disbursed to entrepreneurs.</p>
+              <div className="card-actions justify-end">
+                <Link to="/admin/funds" className="btn btn-primary">View Funds</Link>
+              </div>
+            </div>
+          </div>
         </div>
       )}
-      
+
+      {/* Entrepreneur view */}
       {user?.role === 'entrepreneur' && (
         <div className="alert alert-info shadow-lg">
           <div>
@@ -54,4 +70,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard; 
+export default Dashboard;

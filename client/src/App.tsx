@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { AuthScreen } from './components/AuthScreen';
 import { AdminDashboard } from './components/AdminDashboard';
 import { AnalystDashboard } from './components/AnalystDashboard';
@@ -11,6 +11,7 @@ import {
   MobileNotificationToast
 } from './services/NotificationService';
 import { PWAInstallPrompt } from './components/PWAInstallPrompt';
+import './index.css';
 
 export type UserRole = 'admin' | 'analyst' | 'program_officer' | 'entrepreneur';
 

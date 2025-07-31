@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
@@ -71,11 +72,11 @@ export function AuthScreen({ onLogin, isAnalyticalPlatform = false }: AuthScreen
       {/* Header */}
       <div className="w-full max-w-md mb-8 text-center">
         <div className="flex items-center justify-center space-x-3 mb-4">
-          <div className="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-xl flex items-center justify-center">
+          <div className="w-12 h-12 bg-gradient-to-r from-teal-400 to-purple-500 rounded-xl flex items-center justify-center">
             <BarChart3 className="w-7 h-7 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-teal-400 to-purple-500 bg-clip-text text-transparent">
               HEVA Analytics
             </h1>
             <p className="text-sm text-muted-foreground">Data Platform</p>
@@ -94,22 +95,22 @@ export function AuthScreen({ onLogin, isAnalyticalPlatform = false }: AuthScreen
       <div className="w-full max-w-4xl mb-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
           <div className="flex flex-col items-center space-y-2 p-4 rounded-lg bg-card border">
-            <Database className="w-8 h-8 text-primary" />
+            <Database className="w-8 h-8 text-teal-400" />
             <h3 className="font-medium text-sm">Data Collection</h3>
             <p className="text-xs text-muted-foreground">Comprehensive intake forms</p>
           </div>
           <div className="flex flex-col items-center space-y-2 p-4 rounded-lg bg-card border">
-            <TrendingUp className="w-8 h-8 text-primary" />
+            <TrendingUp className="w-8 h-8 text-teal-400" />
             <h3 className="font-medium text-sm">Analytics</h3>
             <p className="text-xs text-muted-foreground">Real-time insights & trends</p>
           </div>
           <div className="flex flex-col items-center space-y-2 p-4 rounded-lg bg-card border">
-            <Shield className="w-8 h-8 text-primary" />
+            <Shield className="w-8 h-8 text-teal-400" />
             <h3 className="font-medium text-sm">Document Management</h3>
             <p className="text-xs text-muted-foreground">Cloud storage integration</p>
           </div>
           <div className="flex flex-col items-center space-y-2 p-4 rounded-lg bg-card border">
-            <Users className="w-8 h-8 text-primary" />
+            <Users className="w-8 h-8 text-teal-400" />
             <h3 className="font-medium text-sm">Multi-Country</h3>
             <p className="text-xs text-muted-foreground">Kenya, Uganda, Rwanda +</p>
           </div>
@@ -159,7 +160,7 @@ export function AuthScreen({ onLogin, isAnalyticalPlatform = false }: AuthScreen
 
             <Button 
               type="submit" 
-              className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90"
+              className="w-full bg-gradient-to-r from-primary to-secondary from-teal-500 to-purple-500"
               disabled={loading}
             >
               {loading ? 'Signing in...' : 'Sign In'}

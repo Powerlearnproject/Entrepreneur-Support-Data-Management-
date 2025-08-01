@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator, 
   DropdownMenuTrigger 
 } from './ui/dropdown-menu';
-import { Sidebar, SidebarContent, SidebarProvider, SidebarTrigger } from './ui/sidebar';
+import { Sidebar, SidebarProvider, SidebarTrigger } from './ui/sidebar';
 import { useTheme } from './ThemeProvider';
 import { useNotifications } from '../services/NotificationService';
 import { useRealtime } from '../contexts/RealtimeContext';

@@ -9,28 +9,8 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      colors: {
-        // You can override or extend your theme here
-        primary: {
-          DEFAULT: '#2563eb',   // Blue
-          foreground: '#ffffff',
-        },
-        secondary: {
-          DEFAULT: '#f59e0b',   // Amber
-          foreground: '#000000',
-        },
-        muted: {
-          DEFAULT: '#f3f4f6',
-          foreground: '#6b7280',
-        },
-        accent: '#10b981',     // Emerald
-        destructive: '#dc2626', // Red
-      },
-      borderRadius: {
-        lg: '0.5rem',
-        xl: '0.75rem',
-        '2xl': '1rem',
-      },
+      
+     
         
       keyframes: {
         'accordion-down': {
@@ -49,7 +29,8 @@ const config: Config = {
     },
   },
   plugins: [
-    require('tailwindcss-animate'), // optional for shadcn transitions
+    
+    
   ],
 };
 

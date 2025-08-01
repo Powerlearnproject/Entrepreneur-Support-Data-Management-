@@ -13,7 +13,6 @@ import {
   Database, 
   Shield, 
   Bell, 
-  Mail, 
   Cloud,
   Save,
   RefreshCw,
@@ -21,8 +20,43 @@ import {
   CheckCircle
 } from 'lucide-react';
 
+interface SystemSettingsType {
+  // General Settings
+  systemName: string;
+  systemDescription: string;
+  defaultLanguage: string;
+  defaultTimezone: string;
+  
+  // Security Settings
+  passwordPolicy: string;
+  sessionTimeout: number;
+  twoFactorAuth: boolean;
+  loginAttempts: number;
+  
+  // Notification Settings
+  emailNotifications: boolean;
+  pushNotifications: boolean;
+  smsNotifications: boolean;
+  notificationFrequency: string;
+  
+  // Data Settings
+  dataRetentionDays: number;
+  backupFrequency: string;
+  autoExport: boolean;
+  
+  // Cloud Integration
+  googleDriveEnabled: boolean;
+  oneDriveEnabled: boolean;
+  dropboxEnabled: boolean;
+  
+  // API Settings
+  apiRateLimit: number;
+  apiTimeout: number;
+  webhooksEnabled: boolean;
+}
+
 export function SystemSettings() {
-  const [settings, setSettings] = useState({
+  const [settings, setSettings] = useState<SystemSettingsType>({
     // General Settings
     systemName: 'HEVA Analytics Platform',
     systemDescription: 'Data analytics platform for funding programs',
@@ -59,7 +93,7 @@ export function SystemSettings() {
 
   const [saved, setSaved] = useState(false);
 
-  const handleSettingChange = (key: string, value: any) => {
+  const handleSettingChange = (key: keyof SystemSettingsType, value: string | number | boolean) => {
     setSettings(prev => ({
       ...prev,
       [key]: value

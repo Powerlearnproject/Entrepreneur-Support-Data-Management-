@@ -12,22 +12,45 @@ import {
   MapPin, 
   Globe, 
   Mail, 
-  Phone, 
   TrendingUp, 
   Users,
-  Filter,
   ExternalLink
 } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+
+interface Entrepreneur {
+  id: number;
+  name: string;
+  businessName: string;
+  industry: string;
+  region: string;
+  description: string;
+  image: string;
+  website: string;
+  fundingStage: string;
+  employees: number;
+  founded: string;
+  socialLinks: {
+    instagram?: string;
+    facebook?: string;
+    twitter?: string;
+    linkedin?: string;
+  };
+  achievements: string[];
+  contact: {
+    email: string;
+    phone: string;
+  };
+}
 
 export function GuestDirectory() {
   const [searchTerm, setSearchTerm] = useState('');
   const [regionFilter, setRegionFilter] = useState('all');
   const [industryFilter, setIndustryFilter] = useState('all');
-  const [selectedEntrepreneur, setSelectedEntrepreneur] = useState<any>(null);
+  const [selectedEntrepreneur, setSelectedEntrepreneur] = useState<Entrepreneur | null>(null);
   const [contactMessage, setContactMessage] = useState('');
 
-  const entrepreneurs = [
+  const entrepreneurs: Entrepreneur[] = [
     {
       id: 1,
       name: 'Sarah Wanjiku',

@@ -5,26 +5,18 @@ import { Badge } from '../ui/badge';
 import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { Avatar, AvatarFallback } from '../ui/avatar';
 import { Textarea } from '../ui/textarea';
-import { Switch } from '../ui/switch';
 import { 
   Handshake, 
   Plus, 
   Search, 
-  Filter, 
   Globe, 
-  Building2, 
   MapPin, 
   Link, 
   Check, 
-  X,
   Edit,
-  Trash2,
-  Upload,
   ExternalLink,
-  DollarSign,
   Users,
   TrendingUp,
   Settings
@@ -64,7 +56,6 @@ export function PartnersIntegrations() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const [showEditDialog, setShowEditDialog] = useState(false);
 
   // Mock data for demonstration
   const partners: Partner[] = [

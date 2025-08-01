@@ -9,9 +9,7 @@ import {
   TrendingUp, 
   TrendingDown, 
   Users, 
-  DollarSign, 
   BarChart3, 
-  PieChart, 
   Activity,
   Download,
   RefreshCw,
@@ -37,10 +35,18 @@ import {
   ScatterChart
 } from 'recharts';
 
+interface RealtimeMetric {
+  timestamp: number;
+  activeUsers: number;
+  newApplications: number;
+  fundingRequests: number;
+  communityPosts: number;
+}
+
 export function AdvancedAnalytics() {
   const { data, isConnected, subscribe } = useRealtime();
   const [timeRange, setTimeRange] = useState('7d');
-  const [realtimeMetrics, setRealtimeMetrics] = useState<any[]>([]);
+  const [realtimeMetrics, setRealtimeMetrics] = useState<RealtimeMetric[]>([]);
   const [isLive, setIsLive] = useState(true);
 
   useEffect(() => {

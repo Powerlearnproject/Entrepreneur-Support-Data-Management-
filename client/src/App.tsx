@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AuthScreen } from './components/AuthScreen';
 import { AdminDashboard } from './components/AdminDashboard';
 import { AnalystDashboard } from './components/AnalystDashboard';
@@ -11,6 +11,7 @@ import {
   MobileNotificationToast
 } from './services/NotificationService';
 import { PWAInstallPrompt } from './components/PWAInstallPrompt';
+import './index.css';
 
 export type UserRole = 'admin' | 'analyst' | 'program_officer' | 'entrepreneur';
 
@@ -43,7 +44,6 @@ export interface User {
     defaultCountry?: string;
     defaultView?: string;
   };
-  // Entrepreneur-specific fields
   businessInfo?: {
     businessName?: string;
     valueChain?: string;
@@ -66,104 +66,21 @@ export interface User {
   };
 }
 
-export interface Application {
-  id: string;
-  applicantId: string;
-  status: 'pending' | 'under_review' | 'shortlisted' | 'approved' | 'rejected' | 'flagged';
-  submissionDate: string;
-  country: string;
-  valueChain: string;
-  loanType: string;
-  requestedAmount: number;
-  // Bio Data
-  applicantName: string;
-  applicantEmail: string;
-  applicantPhone: string;
-  gender: 'male' | 'female' | 'other' | 'prefer_not_to_say';
-  age: number;
-  region: string;
-  education: string;
-  experience: number;
-  // Business Data
-  businessName: string;
-  businessType: string;
-  registrationNumber?: string;
-  yearsInOperation: number;
-  employees: number;
-  currentRevenue?: number;
-  // Location Data
-  latitude?: number;
-  longitude?: number;
-  locationDescription?: string;
-  // Social Links
-  website?: string;
-  socialMedia?: {
-    facebook?: string;
-    instagram?: string;
-    twitter?: string;
-    linkedin?: string;
-    youtube?: string;
-    tiktok?: string;
-  };
-  // Proposal & Financial
-  loanPurpose: string;
-  businessPlan?: string;
-  financialProjections?: string;
-  collateral?: string;
-  objective?: string;
-  justification?: string;
-  marketAnalysis?: string;
-  // Non-Financial Needs
-  nonFinancialNeeds?: {
-    mentorship?: string[];
-    training?: string[];
-    networking?: string[];
-    marketing?: string[];
-    technical?: string[];
-  };
-  // Documents
-  documents: {
-    registrationCertificate?: string;
-    financialStatements?: string;
-    businessPlan?: string;
-    collateralDocuments?: string;
-    photos?: string[];
-    invoices?: string[];
-  };
-  // Review Data
-  reviewedBy?: string;
-  reviewDate?: string;
-  reviewNotes?: string;
-  riskAssessment?: 'low' | 'medium' | 'high';
-  // M&E Data
-  lastUpdate?: string;
-  revenueGrowth?: number;
-  employmentGrowth?: number;
-  milestones?: string[];
-  // ML Insights
-  mlInsights?: {
-    riskScore?: number;
-    eligibilityScore?: number;
-    recommendedLoanType?: string;
-    missingDocuments?: string[];
-    improvementSuggestions?: string[];
-  };
-  // Consent & Compliance
-  consentLogs?: Array<{
-    type: string;
-    granted: boolean;
-    timestamp: string;
-    version: string;
-    ipAddress?: string;
-  }>;
-}
-
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  // ✅ Restore user on page load
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      const parsedUser: User = JSON.parse(storedUser);
+      setUser(parsedUser);
+      setIsAuthenticated(true);
+    }
+  }, []);
+
   const handleLogin = (userData: User) => {
-    // Add default preferences and permissions based on role
     const enhancedUser: User = {
       ...userData,
       dateJoined: userData.dateJoined || '2023-08-15',
@@ -176,7 +93,7 @@ export default function App() {
         systemConfig: userData.role === 'admin'
       },
       preferences: {
-        theme: 'system' as const,
+        theme: 'system',
         notifications: {
           email: true,
           push: true,
@@ -186,7 +103,6 @@ export default function App() {
         defaultCountry: 'kenya',
         defaultView: userData.role === 'entrepreneur' ? 'my-application' : 'dashboard'
       },
-      // Add role-specific data
       ...(userData.role === 'admin' && {
         department: userData.department || 'Administration',
         location: userData.location || 'Nairobi, Kenya'
@@ -220,25 +136,30 @@ export default function App() {
         }
       })
     };
-    
+
     setUser(enhancedUser);
     setIsAuthenticated(true);
+
+    // ✅ Save user to localStorage
+    localStorage.setItem('user', JSON.stringify(enhancedUser));
   };
 
   const handleUserUpdate = (updatedUser: User) => {
     setUser(updatedUser);
+    localStorage.setItem('user', JSON.stringify(updatedUser)); // Keep storage updated
   };
 
   const handleLogout = () => {
     setUser(null);
     setIsAuthenticated(false);
+    localStorage.removeItem('user'); // ✅ Clear storage on logout
   };
 
   if (!isAuthenticated || !user) {
     return (
       <ThemeProvider>
         <NotificationProvider>
-          <AuthScreen 
+          <AuthScreen
             onLogin={handleLogin}
             isAnalyticalPlatform={true}
           />
@@ -256,22 +177,22 @@ export default function App() {
           <DataProvider>
             <div className="min-h-screen bg-background">
               {user.role === 'admin' && (
-                <AdminDashboard 
-                  user={user} 
+                <AdminDashboard
+                  user={user}
                   onLogout={handleLogout}
                   onUserUpdate={handleUserUpdate}
                 />
               )}
               {(user.role === 'analyst' || user.role === 'program_officer') && (
-                <AnalystDashboard 
-                  user={user} 
+                <AnalystDashboard
+                  user={user}
                   onLogout={handleLogout}
                   onUserUpdate={handleUserUpdate}
                 />
               )}
               {user.role === 'entrepreneur' && (
-                <EntrepreneurDashboard 
-                  user={user} 
+                <EntrepreneurDashboard
+                  user={user}
                   onLogout={handleLogout}
                   onUserUpdate={handleUserUpdate}
                 />

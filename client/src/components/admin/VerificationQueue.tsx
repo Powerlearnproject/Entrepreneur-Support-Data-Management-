@@ -6,9 +6,22 @@ import { ApplicationCard } from './ApplicationCard';
 import { ApplicationReviewDialog } from './ApplicationReviewDialog';
 import { mockApplications } from './constants';
 
+interface Application {
+  id: number;
+  entrepreneurName: string;
+  businessName: string;
+  status: 'pending' | 'approved' | 'rejected' | 'info-requested';
+  submittedDate: string;
+  fundingAmount: number;
+  businessType: string;
+  location: string;
+  description: string;
+  documents: string[];
+}
+
 export function VerificationQueue() {
-  const [applications, setApplications] = useState(mockApplications);
-  const [selectedApplication, setSelectedApplication] = useState<any>(null);
+  const [applications, setApplications] = useState<Application[]>(mockApplications);
+  const [selectedApplication, setSelectedApplication] = useState<Application | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleApprove = (id: number) => {
@@ -32,7 +45,7 @@ export function VerificationQueue() {
     setIsDialogOpen(false);
   };
 
-  const handleReview = (application: any) => {
+  const handleReview = (application: Application) => {
     setSelectedApplication(application);
     setIsDialogOpen(true);
   };

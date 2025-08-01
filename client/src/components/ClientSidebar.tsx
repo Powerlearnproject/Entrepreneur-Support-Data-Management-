@@ -1,6 +1,5 @@
 import React from 'react';
 import { SidebarContent, SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from './ui/sidebar';
-import { Badge } from './ui/badge';
 import { 
   LayoutDashboard, 
   User, 

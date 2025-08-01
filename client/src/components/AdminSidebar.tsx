@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
@@ -133,8 +134,8 @@ export function AdminSidebar({
       {/* Header */}
       <div className="p-4 border-b border-sidebar-border">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <span className="text-primary-foreground font-semibold text-sm">H</span>
+          <div className="w-8 h-8 bg-teal-400 rounded-lg flex items-center justify-center">
+            <span className="text-white font-semibold text-sm">H</span>
           </div>
           <div>
             <h2 className="font-semibold text-sidebar-foreground">HEVA CreativeHub</h2>
@@ -170,7 +171,7 @@ export function AdminSidebar({
               variant={isActive ? "default" : "ghost"}
               className={`w-full justify-start h-auto p-3 ${
                 isActive 
-                  ? 'bg-sidebar-primary text-sidebar-primary-foreground' 
+                  ? 'bg-sidebar-teal-400 text-sidebar-teal-400-foreground' 
                   : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
               }`}
               onClick={() => onViewChange(item.id)}

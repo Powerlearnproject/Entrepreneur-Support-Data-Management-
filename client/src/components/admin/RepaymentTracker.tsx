@@ -10,18 +10,14 @@ import { Progress } from '../ui/progress';
 import { Avatar, AvatarFallback } from '../ui/avatar';
 import { Textarea } from '../ui/textarea';
 import { 
-  CreditCard, 
   AlertTriangle, 
   CheckCircle, 
   Clock, 
-  Upload, 
   Download,
   Search,
   Filter,
   DollarSign,
-  Calendar,
   TrendingUp,
-  Users,
   Shield
 } from 'lucide-react';
 
@@ -59,7 +55,6 @@ export function RepaymentTracker() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedRecord, setSelectedRecord] = useState<RepaymentRecord | null>(null);
   const [showPaymentDialog, setShowPaymentDialog] = useState(false);
-  const [uploadReceipt, setUploadReceipt] = useState<File | null>(null);
 
   // Mock data for demonstration
   const repaymentRecords: RepaymentRecord[] = [

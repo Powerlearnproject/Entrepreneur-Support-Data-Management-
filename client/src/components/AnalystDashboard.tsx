@@ -97,7 +97,7 @@ export function AnalystDashboard({ user, onLogout, onUserUpdate }: AnalystDashbo
                   onClick={() => setActiveView('analytics')}
                   className="p-4 text-left bg-muted/50 rounded-lg hover:bg-muted transition-colors"
                 >
-                  <div className="text-primary text-2xl mb-2">📊</div>
+                  <div className="text-teal-400 text-2xl mb-2">📊</div>
                   <h4 className="font-medium">Advanced Analytics</h4>
                   <p className="text-sm text-muted-foreground">Deep dive into data insights</p>
                 </button>
@@ -106,7 +106,7 @@ export function AnalystDashboard({ user, onLogout, onUserUpdate }: AnalystDashbo
                   onClick={() => setActiveView('applications')}
                   className="p-4 text-left bg-muted/50 rounded-lg hover:bg-muted transition-colors"
                 >
-                  <div className="text-primary text-2xl mb-2">📋</div>
+                  <div className="text-teal-400 text-2xl mb-2">📋</div>
                   <h4 className="font-medium">View Applications</h4>
                   <p className="text-sm text-muted-foreground">Browse and filter applications</p>
                 </button>
@@ -115,16 +115,16 @@ export function AnalystDashboard({ user, onLogout, onUserUpdate }: AnalystDashbo
                   onClick={() => setActiveView('documents')}
                   className="p-4 text-left bg-muted/50 rounded-lg hover:bg-muted transition-colors"
                 >
-                  <div className="text-primary text-2xl mb-2">📁</div>
-                  <h4 className="font-medium">Document Viewer</h4>
+                  <div className="text-teal-400 text-2xl mb-2">📁</div>
+                  <h4 className=" font-medium">Document Viewer</h4>
                   <p className="text-sm text-muted-foreground">Access uploaded documents</p>
                 </button>
-
+ 
                 <button
                   onClick={() => setActiveView('reports')}
                   className="p-4 text-left bg-muted/50 rounded-lg hover:bg-muted transition-colors"
                 >
-                  <div className="text-primary text-2xl mb-2">📈</div>
+                  <div className="text-teal-400 text-2xl mb-2">📈</div>
                   <h4 className="font-medium">Generate Reports</h4>
                   <p className="text-sm text-muted-foreground">Export and share insights</p>
                 </button>
@@ -186,7 +186,7 @@ export function AnalystDashboard({ user, onLogout, onUserUpdate }: AnalystDashbo
       
       case 'documents':
         return <DocumentViewer />;
-      
+       
       case 'reports':
         return <ReportsViewer />;
       

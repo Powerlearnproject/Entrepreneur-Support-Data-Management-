@@ -47,7 +47,7 @@ export function ApplicationCard({
         <div className="flex items-start justify-between">
           <div className="flex items-start space-x-4">
             <Avatar className="h-12 w-12">
-              <AvatarFallback className="bg-gradient-to-r from-primary to-secondary text-white">
+              <AvatarFallback className="bg-gradient-to-r from-teal-400- to-purple-500 text-white">
                 {application.name.split(' ').map(n => n[0]).join('')}
               </AvatarFallback>
             </Avatar>

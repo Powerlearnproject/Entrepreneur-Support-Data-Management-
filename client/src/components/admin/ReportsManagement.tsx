@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Avatar, AvatarFallback } from '../ui/avatar';
@@ -16,8 +16,24 @@ import {
   Eye
 } from 'lucide-react';
 
+interface Report {
+  id: number;
+  entrepreneurName: string;
+  businessName: string;
+  month: string;
+  submittedDate: string;
+  status: 'pending' | 'reviewed' | 'overdue';
+  fundingUsed: number;
+  totalFunding: number;
+  revenue: number;
+  expenses: number;
+  summary: string;
+  receipts: number;
+  feedback: string;
+}
+
 export function ReportsManagement() {
-  const [reports] = useState([
+  const [reports] = useState<Report[]>([
     {
       id: 1,
       entrepreneurName: 'Sarah Wanjiku',
@@ -65,7 +81,7 @@ export function ReportsManagement() {
     }
   ]);
 
-  const [selectedReport, setSelectedReport] = useState<any>(null);
+  const [selectedReport, setSelectedReport] = useState<Report | null>(null);
   const [adminFeedback, setAdminFeedback] = useState('');
 
   const getStatusBadge = (status: string) => {

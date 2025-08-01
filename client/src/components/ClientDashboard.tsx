@@ -20,7 +20,7 @@ type ClientView = 'dashboard' | 'profile' | 'reports' | 'community' | 'notificat
 
 export function ClientDashboard({ user, onLogout, onUserUpdate }: ClientDashboardProps) {
   const [activeView, setActiveView] = useState<ClientView>('dashboard');
-  const { subscribe, updateData } = useRealtime();
+  const { subscribe } = useRealtime();
   const { sendNotification } = useNotifications();
 
   // Setup real-time listeners for client-specific events

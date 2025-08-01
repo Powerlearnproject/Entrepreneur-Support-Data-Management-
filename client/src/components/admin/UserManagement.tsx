@@ -14,7 +14,6 @@ import {
   Trash2, 
   Shield,
   Mail,
-  Phone,
   MapPin,
   Calendar
 } from 'lucide-react';

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Avatar, AvatarFallback } from '../ui/avatar';
 import { Badge } from '../ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 import { 
@@ -24,7 +24,7 @@ interface CommunityShowcaseProps {
 }
 
 export function CommunityShowcase({ isOverview = false }: CommunityShowcaseProps) {
-  const [posts, setPosts] = useState([
+  const [posts] = useState([
     {
       id: 1,
       author: 'Sarah Wanjiku',

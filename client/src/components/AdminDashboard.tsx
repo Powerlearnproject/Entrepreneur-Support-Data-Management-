@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
 import { AdminSidebar } from './AdminSidebar';
 import { AdminOverview } from './admin/AdminOverview';

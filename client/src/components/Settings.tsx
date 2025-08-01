@@ -14,7 +14,6 @@ import type { User } from '../App';
 import { 
   Camera, 
   User as UserIcon, 
-  Settings as SettingsIcon, 
   Bell, 
   Palette, 
   Globe, 
@@ -26,7 +25,6 @@ import {
   Calendar,
   Clock,
   Link,
-  Twitter,
   Linkedin,
   Briefcase,
   Phone,

@@ -25,6 +25,8 @@ router.get('/', auth, applicationController.listApplications);
 // Admin: approve application
 router.patch('/:id/approve', auth, isAdmin, applicationController.approveApplication);
 
+
+
 // Admin: reject application
 router.patch('/:id/reject', auth, isAdmin, applicationController.rejectApplication);
 

@@ -51,13 +51,18 @@ exports.approveApplication = async (req, res) => {
       const entrepreneur = await Entrepreneur.findById(application.entrepreneurId);
       if (!entrepreneur) return res.status(404).json({ message: 'Linked entrepreneur not found' });
 
-      entrepreneur.name = application.name;
-      entrepreneur.contactInfo = application.email;
-      entrepreneur.businessName = application.orgName;
-      entrepreneur.image = application.image || entrepreneur.image;
-      await entrepreneur.save();
+
+     const newEntrepreneur = new Entrepreneur({
+      name: application.name,
+      contactInfo: application.email,
+      businessName: application.orgName,
+      image: application.image,
+      status: 'approved',
+    });
+    await newEntrepreneur.save();
 
       application.status = 'approved';
+      application.entrepreneurId = newEntrepreneur._id;
       await application.save();
 
       return res.json({ message: 'Entrepreneur update approved successfully' });

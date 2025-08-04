@@ -5,10 +5,7 @@ const bcrypt = require('bcryptjs');
 const User = require('./models/User'); // Adjust if your path is different
 
 const seedAdmin = async () => {
-  await mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  await mongoose.connect(process.env.MONGO_URI, {});
 
   const existingAdmin = await User.findOne({ email: 'admin@heva.com' });
   if (existingAdmin) {

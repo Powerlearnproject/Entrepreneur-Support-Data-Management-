@@ -27,13 +27,14 @@ const UpdateApplication = () => {
 
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch(`${API}/entrepreneurs/${id}`, {
+        const res = await fetch(`http://localhost:5000/api/entrepreneur/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
+         
 
-        if (!res.ok) throw new Error('Failed to load entrepreneur data');
+        if (!res.ok) throw new Error('Failed to load entrepreneur data', Error);
 
         const data = await res.json();
 

@@ -29,9 +29,8 @@ exports.getEntrepreneurs = async (req, res) => {
 exports.getApprovedEntrepreneurs = async (req, res) => {
   try {
     // Get approved applications to display publicly
-    const Application = require('../models/Application');
-    const approvedApplications = await Application.find({ status: 'approved' });
-    res.json(approvedApplications);
+    const approvedEntrepreneurs= await Entrepreneur.find({ status: 'approved' });
+    res.json(approvedEntrepreneurs);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -149,6 +148,52 @@ exports.deleteSupportActivity = async (req, res) => {
     await entrepreneur.save();
     res.json(entrepreneur);
   } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+const Application = require('../models/Application');
+
+// Admin: Approve application and create entrepreneur profile
+exports.approveApplication = async (req, res) => {
+  try {
+    const applicationId = req.params.id;
+
+    // Fetch the application
+    const application = await Application.findById(applicationId);
+    if (!application) {
+      return res.status(404).json({ message: 'Application not found' });
+    }
+
+    // Optional: Prevent duplicate creation
+    const existingEntrepreneur = await Entrepreneur.findOne({ email: application.email });
+    if (existingEntrepreneur) {
+      return res.status(400).json({ message: 'Entrepreneur already exists for this application' });
+    }
+
+    // Create entrepreneur based on approved application
+    const newEntrepreneur = new Entrepreneur({
+      name: application.name,
+      email: application.email,
+      businessName: application.orgName,
+      website: application.orgWebsite,
+      reasons: application.reasons,
+      supportNeeds: application.supportNeeds,
+      plans: application.plans,
+      image: application.image,
+      status: 'approved',
+    });
+
+    await newEntrepreneur.save();
+
+    // Mark application as approved (optional)
+    application.status = 'approved';
+    await application.save();
+
+    res.status(201).json({ message: 'Entrepreneur created from application', entrepreneur: newEntrepreneur });
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ message: err.message });
   }
 };

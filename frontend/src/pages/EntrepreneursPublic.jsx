@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import API from '../utils/Api';
 import Footer from '../components/Footer';
+import {Link } from 'react-router-dom';
 
 const EntrepreneursPublic = () => {
   const [entrepreneurs, setEntrepreneurs] = useState([]);
@@ -13,7 +14,6 @@ const EntrepreneursPublic = () => {
       setError('');
       try {
         const res = await fetch(`${API}/entrepreneurs/approved`);
-        console.log(`${API}/entrepreneurs/approved`);
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || 'Failed to fetch');
         setEntrepreneurs(data);
@@ -43,37 +43,50 @@ const EntrepreneursPublic = () => {
                   <img
                     src={`http://localhost:5000/uploads/${e.image}`}
                     alt={`${e.orgName || e.name} logo`}
-                    className="h-48 w-full object-cover"
-                  />
-                </figure>
+                    className="h-48 w-full object-cover" /> </figure>
+
                 <div className="card-body">
-                  <h2 className="card-title">{e.orgName || e.name}</h2>
+                  <h2 className="card-title">{e.orgName}</h2>
                   <p className="text-sm text-gray-600">{e.plan || 'No description provided.'}</p>
                   <div className="mt-4 space-y-1 text-sm">
                     {e.orgWebsite && (
                       <div>
                         🌐{' '}
-                        <a
-                          href={e.orgWebsite}
+                        
+                        <Link
+                        to={`/entrepreneurs/${e._id}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="link link-primary"
                         >
-                          Visit Website
-                        </a>
+                        Support
+                        </Link>
+
                       </div>
                     )}
                     <div>
                       📧{' '}
-                      <a href={`mailto:${e.email}`} className="link link-primary">
-                        {e.email}
-                      </a>
-                    </div>
+                      <a href={`mailto:${e.email}`} className="link link-primary">  {e.email}  </a> 
+                      </div>
+                    
+                 <div>
+                    <p>{e._id}</p>
+                  <p> 21 donors</p>
+                  <progress className="progress w-56 progress-primary" value={50} max="100"></progress>
+  
+           <div className="flex">
+                <div className="w-64 flex-1 ...">  <strong>  ksh 12,000 raised  </strong></div>
+                 <div className="w-64 flex-1 ...">  103% funded</div>
+          </div>
+     </div>
+
                   </div>
                 </div>
               </div>
             ))}
+
           </div>
+
         ) : (
           <div className="text-center text-gray-500 mt-10 text-lg">
             No entrepreneurs available at the moment.

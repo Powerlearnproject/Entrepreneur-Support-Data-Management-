@@ -19,6 +19,7 @@ const entrepreneurSchema = new mongoose.Schema({
   businessName: String,
   documents: [String],
   image: String,
+  status: { type: String, enum: ['approved', 'pending'], default: 'pending' }, 
   funds: [fundSchema],
   supportActivities: [supportActivitySchema],
 }, { timestamps: true });

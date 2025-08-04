@@ -24,11 +24,7 @@ const EntrepreneurDetails = () => {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`http://localhost:5000/api/entrepreneurs/${id}`, {
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
-      });
+      const res = await fetch(`http://localhost:5000/api/entrepreneurs/${id}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Failed to fetch');
       setEntrepreneur(data);

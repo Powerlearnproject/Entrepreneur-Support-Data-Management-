@@ -8,7 +8,7 @@ import EntrepreneursPublic from './pages/EntrepreneursPublic';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Entrepreneurs from './pages/Entrepreneurs';
-import EntrepreneurDetails from './pages/EntrepreneurDetails';
+import EntrepreneurInfo from './pages/EntrepreneurInfo';
 import Applications from './pages/Applications';
 import ProtectedRoute from './components/ProtectedRoute';
 import { isLoggedIn, logout, getUser } from './utils/auth';
@@ -20,10 +20,10 @@ const AppContent = () => {
   const navigate = useNavigate();
   const loggedIn = isLoggedIn();
   const user = getUser();
-  console.log(user.userId);
+ 
 
   const handleLogout = () => {
-    logout();
+  logout(); 
     navigate('/login');
   };
 
@@ -63,10 +63,11 @@ const AppContent = () => {
             )}
 
 
-              {loggedIn && user?.role === 'entrepreneur' && (
+              {loggedIn && user?.role === 'entrepreneur' && (   
               <li>
-              <Link to={`/update-application/${user.userId}`}>Update Application</Link>
+              <Link to={`/update-application/${user.userId}`}>Update Profile</Link>
               </li>
+            
               )}
 
               <li><Link to="/contact">Contact</Link></li>
@@ -92,7 +93,7 @@ const AppContent = () => {
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/applications" element={<ProtectedRoute><Applications /></ProtectedRoute>} />
         <Route path="/entrepreneurs" element={<ProtectedRoute><Entrepreneurs /></ProtectedRoute>} />
-        <Route path="/entrepreneurs/:id" element={<ProtectedRoute><EntrepreneurDetails /></ProtectedRoute>} />
+        <Route path="/entrepreneurs/:id" element={<PublicOnlyRoute><EntrepreneurInfo /></PublicOnlyRoute>} />
         <Route path="/update-password" element={<ProtectedRoute><UpdatePassword /></ProtectedRoute>} />
         <Route path="/update-application/:id" element={<ProtectedRoute><UpdateApplication /></ProtectedRoute>} />
          <Route path="/contact" element={<Contact />} />

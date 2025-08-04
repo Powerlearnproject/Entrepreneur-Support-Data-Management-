@@ -11,7 +11,7 @@ const applicationSchema = new mongoose.Schema({
   status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
   rejectionReason: String,
 
-// ADD THESE FIELDS:
+
   isUpdate: { type: Boolean, default: false },
   originalApplicationId: { type: mongoose.Schema.Types.ObjectId, ref: 'Application' },
   entrepreneurId: { type: mongoose.Schema.Types.ObjectId, ref: 'Entrepreneur' },

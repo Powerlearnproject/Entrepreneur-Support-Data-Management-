@@ -32,7 +32,7 @@ const AppContent = () => {
       <div className="navbar bg-base-100 shadow mb-6">
         <div className="flex-1">
           <Link to="/" className="btn btn-ghost normal-case text-xl">
-            HEVA Data Management
+           EmpowerBridge
           </Link>
         </div>
         <div className="flex-none">
@@ -93,7 +93,7 @@ const AppContent = () => {
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/applications" element={<ProtectedRoute><Applications /></ProtectedRoute>} />
         <Route path="/entrepreneurs" element={<ProtectedRoute><Entrepreneurs /></ProtectedRoute>} />
-        <Route path="/entrepreneurs/:id" element={<PublicOnlyRoute><EntrepreneurInfo /></PublicOnlyRoute>} />
+        <Route path="/entrepreneurs/approved/:id" element={<PublicOnlyRoute><EntrepreneurInfo /></PublicOnlyRoute>} />
         <Route path="/update-password" element={<ProtectedRoute><UpdatePassword /></ProtectedRoute>} />
         <Route path="/update-application/:id" element={<ProtectedRoute><UpdateApplication /></ProtectedRoute>} />
          <Route path="/contact" element={<Contact />} />

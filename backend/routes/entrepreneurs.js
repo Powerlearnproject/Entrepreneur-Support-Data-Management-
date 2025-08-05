@@ -17,6 +17,11 @@ const upload = multer({ storage });
 
 // Public route for approved entrepreneurs
 router.get('/approved', entrepreneurController.getApprovedEntrepreneurs);
+router.get('/approved/:id', entrepreneurController.getApprovedEntrepreneursById);
+router.post('approved/:id/funds', entrepreneurController.addFund);
+
+
+
 
 // Protected routes
 router.use(auth);
@@ -28,9 +33,8 @@ router.put('/:id', entrepreneurController.updateEntrepreneur);
 router.delete('/:id', entrepreneurController.deleteEntrepreneur);
 
 // Fund management routes
-router.post('/:id/funds', entrepreneurController.addFund);
-router.put('/:id/funds/:fundId', entrepreneurController.updateFund);
-router.delete('/:id/funds/:fundId', entrepreneurController.deleteFund);
+
+
 
 // Support activity routes
 router.post('/:id/support', entrepreneurController.addSupportActivity);

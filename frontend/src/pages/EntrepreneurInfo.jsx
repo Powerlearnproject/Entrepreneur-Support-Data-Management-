@@ -11,10 +11,11 @@ const EntrepreneurInfo = () => {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`http://localhost:5000/api/entrepreneurs/${id}`);
+      const res = await fetch(`http://localhost:5000/api/entrepreneurs/approved/${id}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Failed to fetch');
       setEntrepreneur(data);
+      console.log(data);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -27,6 +28,7 @@ const EntrepreneurInfo = () => {
   }, [id]);
 
   return (
+    <>
     <div className="p-8 max-w-3xl mx-auto">
       <div className="text-2xl font-bold mb-6">Entrepreneur Profile</div>
 
@@ -34,6 +36,7 @@ const EntrepreneurInfo = () => {
       {error && <div className="alert alert-error mb-4">{error}</div>}
 
       {!loading && !error && entrepreneur && (
+        <>
         <div className="card bg-base-100 shadow-xl p-6">
           <div className="flex flex-col items-center gap-4">
             {entrepreneur.image && (
@@ -45,7 +48,7 @@ const EntrepreneurInfo = () => {
             )}
 
             <div className="text-center">
-              <h2 className="text-xl font-semibold">{entrepreneur.name}</h2>
+              <h2 className="text-xl font-semibold">{entrepreneur.businessName}</h2>
               <p className="text-gray-600">{entrepreneur.businessName}</p>
               <p className="text-gray-500 text-sm mt-1">{entrepreneur.contactInfo}</p>
             </div>
@@ -60,10 +63,44 @@ const EntrepreneurInfo = () => {
                 💖 Support This Entrepreneur
               </a>
             </div>
+
           </div>
         </div>
+
+
+
+          <div className="card w-full bg-base-100 card-lg shadow-sm mt-3 mb-2">
+            <div className="card-body">
+              <h2 className="card-title">Support we require</h2>
+              <p>
+              {entrepreneur.supportNeeds}
+                </p>
+            </div>
+          </div>
+
+
+           <div className="card w-full bg-base-100 card-lg shadow-sm mt-3 mb-2">
+            <div className="card-body">
+              <h2 className="card-title">Short and long term plans</h2>
+              <p>
+              {entrepreneur.plans}
+                </p>
+            </div>
+          </div>
+
+
+
+      
+        </>
+
+
       )}
     </div>
+
+
+
+
+    </>
   );
 };
 

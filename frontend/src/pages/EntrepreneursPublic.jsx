@@ -17,6 +17,7 @@ const EntrepreneursPublic = () => {
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || 'Failed to fetch');
         setEntrepreneurs(data);
+        console.log(data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -46,20 +47,20 @@ const EntrepreneursPublic = () => {
                     className="h-48 w-full object-cover" /> </figure>
 
                 <div className="card-body">
-                  <h2 className="card-title">{e.orgName}</h2>
-                  <p className="text-sm text-gray-600">{e.plan || 'No description provided.'}</p>
+                  <h2 className="card-title">{e.businessName}</h2>
+                  <p className="text-sm text-gray-600">{e.supportNeeds || 'No description provided.'}</p>
                   <div className="mt-4 space-y-1 text-sm">
-                    {e.orgWebsite && (
+                    {e.website && (
                       <div>
                         🌐{' '}
                         
                         <Link
-                        to={`/entrepreneurs/${e._id}`}
+                        to={`/entrepreneurs/approved/${e._id}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="link link-primary"
                         >
-                        Support
+                       {e.businessName}
                         </Link>
 
                       </div>
@@ -70,7 +71,6 @@ const EntrepreneursPublic = () => {
                       </div>
                     
                  <div>
-                    <p>{e._id}</p>
                   <p> 21 donors</p>
                   <progress className="progress w-56 progress-primary" value={50} max="100"></progress>
   

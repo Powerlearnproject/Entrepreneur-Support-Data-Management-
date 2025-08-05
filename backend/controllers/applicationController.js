@@ -39,34 +39,40 @@ exports.listApplications = async (req, res) => {
   }
 };
 
+
+
 exports.approveApplication = async (req, res) => {
   try {
     const application = await Application.findById(req.params.id);
     if (!application) return res.status(404).json({ message: 'Application not found' });
     if (application.status !== 'pending') return res.status(400).json({ message: 'Already processed' });
 
-  
+    const Entrepreneur = require('../models/Entrepreneur');
+
+
     if (application.isUpdate && application.entrepreneurId) {
-      const Entrepreneur = require('../models/Entrepreneur');
       const entrepreneur = await Entrepreneur.findById(application.entrepreneurId);
       if (!entrepreneur) return res.status(404).json({ message: 'Linked entrepreneur not found' });
 
+      entrepreneur.name = application.name;
+      entrepreneur.contactInfo = application.email;
+      entrepreneur.businessName = application.orgName;
+      entrepreneur.website = application.orgWebsite;
+      entrepreneur.reasons = application.reasons;
+      entrepreneur.supportNeeds = application.supportNeeds;
+      entrepreneur.plans = application.plans;
+      entrepreneur.image = application.image || entrepreneur.image;
+      entrepreneur.status = 'approved';
 
-     const newEntrepreneur = new Entrepreneur({
-      name: application.name,
-      contactInfo: application.email,
-      businessName: application.orgName,
-      image: application.image,
-      status: 'approved',
-    });
-    await newEntrepreneur.save();
+      await entrepreneur.save();
 
       application.status = 'approved';
-      application.entrepreneurId = newEntrepreneur._id;
+      application.entrepreneurId = entrepreneur._id;
       await application.save();
 
       return res.json({ message: 'Entrepreneur update approved successfully' });
     }
+
 
     const password = crypto.randomBytes(8).toString('hex');
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -80,21 +86,52 @@ exports.approveApplication = async (req, res) => {
 
     await user.save();
 
+    const newEntrepreneur = new Entrepreneur({
+      name: application.name,
+      contactInfo: application.email,
+      businessName: application.orgName,
+      website: application.orgWebsite,
+      reasons: application.reasons,
+      supportNeeds: application.supportNeeds,
+      plans: application.plans,
+      image: application.image,
+      status: 'approved',
+    });
+
+    await newEntrepreneur.save();
+
+    
     application.status = 'approved';
+    application.entrepreneurId = newEntrepreneur._id;
     await application.save();
+
 
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: application.email,
       subject: 'HEVA Application Approved',
-      text: `Congratulations ${application.name}!\n\nYour application has been approved.\n\nLogin details:\nEmail: ${application.email}\nPassword: ${password}\n\nPlease login and change your password.`,
+      text: `Congratulations ${application.name}!\n\nYour application has been approved.\n\nLogin details:\nEmail: ${application.email}\nPassword: ${password}\n\nPlease log in and change your password immediately.`,
     });
 
-    res.json({ message: 'Application approved and user created' });
+
+
+console.log('TEMP LOGIN CREDENTIALS →');
+console.log(`Email: ${application.email}`);
+console.log(`Password: ${password}`);
+
+
+
+
+
+    res.json({ message: 'Application approved, user and entrepreneur created' });
+
   } catch (err) {
+    console.error('Approval Error:', err);
     res.status(500).json({ message: err.message });
   }
 };
+
+
 
 
 exports.submitUpdate = async (req, res) => {

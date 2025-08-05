@@ -7,6 +7,7 @@ const applicationSchema = new mongoose.Schema({
   orgName: { type: String, required: true },
   orgWebsite: String,
   reasons: { type: String, required: true },
+  plans:{ type: String, required: true},
   supportNeeds: { type: String, required: true },
   status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
   rejectionReason: String,

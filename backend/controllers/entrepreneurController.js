@@ -17,6 +17,7 @@ exports.createEntrepreneur = async (req, res) => {
   }
 };
 
+
 exports.getEntrepreneurs = async (req, res) => {
   try {
     const entrepreneurs = await Entrepreneur.find();
@@ -31,6 +32,22 @@ exports.getApprovedEntrepreneurs = async (req, res) => {
     // Get approved applications to display publicly
     const approvedEntrepreneurs= await Entrepreneur.find({ status: 'approved' });
     res.json(approvedEntrepreneurs);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.getApprovedEntrepreneursById = async (req, res) => {
+  try {
+   
+    const entrepreneur= await Entrepreneur.findOne({
+         _id: req.params.id,
+         status: 'approved'
+    });
+     if (!entrepreneur) {
+      return res.status(404).json({ message: 'Approved entrepreneur not found' });
+    }
+    res.json(entrepreneur);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -80,34 +97,7 @@ exports.addFund = async (req, res) => {
   }
 };
 
-exports.updateFund = async (req, res) => {
-  try {
-    const entrepreneur = await Entrepreneur.findById(req.params.id);
-    if (!entrepreneur) return res.status(404).json({ message: 'Entrepreneur not found' });
-    
-    const fund = entrepreneur.funds.id(req.params.fundId);
-    if (!fund) return res.status(404).json({ message: 'Fund not found' });
-    
-    Object.assign(fund, req.body);
-    await entrepreneur.save();
-    res.json(entrepreneur);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
 
-exports.deleteFund = async (req, res) => {
-  try {
-    const entrepreneur = await Entrepreneur.findById(req.params.id);
-    if (!entrepreneur) return res.status(404).json({ message: 'Entrepreneur not found' });
-    
-    entrepreneur.funds.id(req.params.fundId).remove();
-    await entrepreneur.save();
-    res.json(entrepreneur);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
 
 // Support activity management
 exports.addSupportActivity = async (req, res) => {

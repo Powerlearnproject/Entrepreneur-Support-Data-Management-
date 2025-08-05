@@ -15,7 +15,7 @@ const Entrepreneurs = () => {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`${API}/entrepreneurs`, {
+      const res = await fetch(`${API}/api/entrepreneurs`, {
         headers: {
           Authorization: `Bearer ${getToken()}`,
         },

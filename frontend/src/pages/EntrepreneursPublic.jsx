@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import API from '../utils/Api';
 import Footer from '../components/Footer';
 import {Link } from 'react-router-dom';
+import API from '../utils/Api';
 
 const EntrepreneursPublic = () => {
   const [entrepreneurs, setEntrepreneurs] = useState([]);
@@ -13,7 +14,7 @@ const EntrepreneursPublic = () => {
       setLoading(true);
       setError('');
       try {
-        const res = await fetch(`${API}/entrepreneurs/approved`);
+        const res = await fetch(`${API}/api/entrepreneurs/approved`);
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || 'Failed to fetch');
         setEntrepreneurs(data);
@@ -42,7 +43,7 @@ const EntrepreneursPublic = () => {
               <div key={e._id} className="card bg-base-100 shadow-sm">
                 <figure>
                   <img
-                    src={`http://localhost:5000/uploads/${e.image}`}
+                    src={`${API}/uploads/${e.image}`}
                     alt={`${e.orgName || e.name} logo`}
                     className="h-48 w-full object-cover" /> </figure>
 

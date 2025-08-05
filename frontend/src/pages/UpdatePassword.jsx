@@ -15,7 +15,7 @@ const UpdatePassword = () => {
     setError('');
     setSuccess('');
     try {
-      const res = await fetch(`${API}/auth/update-password`, {
+      const res = await fetch(`${API}/api/auth/update-password`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

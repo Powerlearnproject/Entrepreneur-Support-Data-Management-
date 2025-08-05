@@ -37,7 +37,7 @@ const Apply = () => {
         if (value) formData.append(key, value);
       });
 
-      const res = await fetch(`${API}/applications`, {
+      const res = await fetch(`${API}/api/applications`, {
         method: 'POST',
         body: formData,
       });

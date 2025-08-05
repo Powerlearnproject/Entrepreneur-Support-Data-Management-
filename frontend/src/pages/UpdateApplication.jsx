@@ -27,7 +27,7 @@ const UpdateApplication = () => {
 
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch(`${API}/entrepreneur/${id}`, {
+        const res = await fetch(`${API}/api/entrepreneur/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

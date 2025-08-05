@@ -12,7 +12,7 @@ const EntrepreneurInfo = () => {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`${API}/entrepreneurs/approved/${id}`);
+      const res = await fetch(`${API}/api/entrepreneurs/approved/${id}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Failed to fetch');
       setEntrepreneur(data);

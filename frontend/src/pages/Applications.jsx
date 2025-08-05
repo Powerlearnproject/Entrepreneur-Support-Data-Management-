@@ -15,7 +15,7 @@ const Applications = () => {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`${API}/applications`, {
+      const res = await fetch(`${API}/api/applications`, {
         headers: {
           Authorization: `Bearer ${getToken()}`,
         },

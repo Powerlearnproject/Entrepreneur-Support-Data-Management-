@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import API from '../utils/Api';
 
 const EntrepreneurInfo = () => {
   const { id } = useParams();
@@ -11,7 +12,7 @@ const EntrepreneurInfo = () => {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`http://localhost:5000/api/entrepreneurs/approved/${id}`);
+      const res = await fetch(`${API}/entrepreneurs/approved/${id}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Failed to fetch');
       setEntrepreneur(data);

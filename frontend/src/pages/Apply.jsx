@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PhotoIcon } from '@heroicons/react/24/solid';
 import Footer from '../components/Footer';
+import API from '../utils/Api';
 
 const Apply = () => {
   const [form, setForm] = useState({
@@ -36,14 +37,14 @@ const Apply = () => {
         if (value) formData.append(key, value);
       });
 
-      const res = await fetch('http://localhost:5000/api/applications', {
+      const res = await fetch(`${API}/applications`, {
         method: 'POST',
         body: formData,
       });
 
       if (!res.ok) throw new Error('Failed to submit application');
 
-      alert('✅ Application submitted successfully!');
+      alert('Application submitted successfully!');
       navigate('/apply/confirmation');
     } catch (err) {
       setError(err.message);

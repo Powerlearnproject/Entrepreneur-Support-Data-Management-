@@ -40,7 +40,7 @@ A web-based data management platform designed to help HEVA and similar organizat
 ### 1. Clone the repository
 
 ```bash
-
+git clone https://github.com/mercyogalo/Entrepreneur-Support-Data-Management-.git
 ```
 
 ├── backend

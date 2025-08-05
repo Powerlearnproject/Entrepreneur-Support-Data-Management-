@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import API from '../utils/Api';
 import Footer from '../components/Footer';
 import {Link } from 'react-router-dom';
-import API from '../utils/Api';
+
 
 const EntrepreneursPublic = () => {
   const [entrepreneurs, setEntrepreneurs] = useState([]);

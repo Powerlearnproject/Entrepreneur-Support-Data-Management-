@@ -115,7 +115,7 @@ const Applications = () => {
                 {app.image && (
                   <figure className="min-w-[160px] max-w-[160px] m-2">
                     <img
-                      src={`http://localhost:5000/uploads/${app.image}`}
+                      src={`${API}/uploads/${app.image}`}
                       alt="Logo"
                       className="w-full h-full object-cover"
                     />

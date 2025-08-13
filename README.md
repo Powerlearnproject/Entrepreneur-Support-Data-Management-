@@ -10,32 +10,7 @@ decision-makers and funders.
 
 ## Key Features
 
-### Admin Dashboard
 
-- Application Filtering by Country, Loan Type, Value Chain
-- Analytics Dashboard with Charts, KPIs
-- Repayment Tracker - 48-month plans depending on the loan type
-- Monitoring & Evaluation (M&E) Module
-- Consent Logs & GDPR Compliance
-- Partner Management System
-- User Management System
-- Integrated map with geo-coordinates
-- Blacklist System for Loan Defaulters
-- Notifications & Status Alerts
-- Role-Based Admin Management
-
-### Entrepreneur Dashboard
-
-- OTP/Email Login
-- Loan Application Flow (Bio, Business, Proposal, Budget)
-- Loan Tracking (submitted --> reviewed --> approved --> disbursed)
-- Document Upload (Google Drive / OneDrive)
-- Location Pinning via Google Maps Picker
-- Application Status Timeline
-- M&E and quarterly reports uploads
-- Privacy/Consent Controls
-- Notifications + Reminders for loan status, reports, repayments
-- Financial Literacy Tools & FAQs
 
 ## Tech Stack
 
@@ -72,55 +47,8 @@ decision-makers and funders.
 - Dynamic CSV + PDF Reports
 - Map Visualizations (Heatmap by Region)
 
-### Entrepreneur
 
-- Loan Status & Document Tracking
-- Reminders (due dates, missing files)
-- Upload Receipts, Progress Reports
-- Real-time Application Updates
 
-## Geo Mapping & Location Capture
-
-- Google Maps API: Interactive Pin Drop for Business/Residence
-- Stores Latitude, Longitude, Address, Region
-- Admin View: Clusters + Filters by Geo
-
-## Partner Management System
-
-- Add/Edit Partners (FSPs, Aggregators)
-- Filter by Sector, Region, Loan Types
-- Assign Entrepreneurs per Partner
-- Track Partner Impact Stats (future module)
-
-## Authentication & Roles
-
-### Admin Roles
-
-- Super Admin– Full access
-- Reviewer – Application review rights
-- Analyst – Read-only + export
-
-### Entrepreneur Roles
-
-- OTP/Email Registration
-- View-only dashboards
-- Application submission & upload tools
-
-## Data Intelligence
-
-- Geo-coordinates via Google Maps (lat/lng captures)
-- Value chain segmentation
-- Country/region-level filtering
-- Blacklist & repayment defaulter flags
-- GDPR & Kenya Data Law compliance
-
-## ## UI/UX Mockups – Built in Figma
-
-- Admin Dashboard: [https://rhyme-crow-88911875.figma.site](https://rhyme-crow-88911875.figma.site)
-- Our Solution:https://heva-creativehub-1.onrender.com
-  
-- Entrepreneur Dashboard: [https://size-liver-77683721.figma.site](https://size-liver-77683721.figma.site)
-- Pitch Deck: [View Pitch Deck on Canva](https://www.canva.com/design/DAGusOZfSjM/QrX_EXZIK5MW_jki2kqgBA/edit?utm_content=DAGusOZfSjM&utm_campaign=designshare&utm_medium=link2&utm_sources=sharebutton)
 
 ## Development Roadmap
 
